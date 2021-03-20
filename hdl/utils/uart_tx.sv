@@ -11,8 +11,9 @@ module uart_tx #(
   (
     input wire 		  				i_clk,
     input wire 		  				i_rst_n,
-    input wire						i_tx_byte_valid,
-    input wire	[NUM_DATA_BITS-1:0] i_tx_byte,
+    input wire						i_fifo_empty,
+    input wire	[NUM_DATA_BITS-1:0] i_fifo_rd_data,
+    output wire                     o_fifo_rd_en,
     output reg 		  				o_tx
   );
   
@@ -32,14 +33,17 @@ module uart_tx #(
   
   // Stop bit counter
   logic stop_b_cnt;
-  
+
   // Control FSM
   typedef enum {TX_IDLE, 
+                TX_GET_DATA,
                 TX_START, 
                 TX_DATA, 
                 TX_PARITY, 
                 TX_STOP} state_t;
   state_t state;
+  
+  assign o_fifo_rd_en = (!i_fifo_empty) && state==TX_IDLE;;
   
   always_ff @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) begin
@@ -50,16 +54,25 @@ module uart_tx #(
       stop_b_cnt		<= 1'b0;
       state				<= TX_IDLE;
     end else begin
+    
       case (state)
+      
         TX_IDLE: begin
           
-          if (i_tx_byte_valid) begin
-            tx_byte		<= i_tx_byte;
-            o_tx		<= 1'b0;
-            state		<= TX_START;
+          if (!i_fifo_empty) begin
+            state		    <= TX_GET_DATA;
           end
         
         end
+        
+        TX_GET_DATA: begin
+        
+            o_tx		<= 1'b0;
+            tx_byte		<= i_fifo_rd_data;
+            state       <= TX_START;
+        
+        end
+        
         TX_START: begin
           
           baudper_cnt	<= baudper_cnt + 1;
@@ -70,6 +83,7 @@ module uart_tx #(
           end
                    
         end
+        
         TX_DATA: begin
           
           baudper_cnt	<= baudper_cnt + 1;
@@ -94,6 +108,7 @@ module uart_tx #(
           end
           
         end
+        
         TX_PARITY: begin
           
           baudper_cnt	<= baudper_cnt + 1;
@@ -104,6 +119,7 @@ module uart_tx #(
           end
           
         end
+        
         TX_STOP: begin
           
           baudper_cnt	<= baudper_cnt + 1;
@@ -118,6 +134,7 @@ module uart_tx #(
           end
           
         end
+        
         default: begin
           
           tx_byte			<= '0;

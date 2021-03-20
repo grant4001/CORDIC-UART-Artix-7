@@ -45,7 +45,8 @@ module uart_rx #(
   // Control FSM
   typedef enum {RX_START, 
                 RX_DATA, 
-                RX_PARITY} state_t;
+                RX_PARITY,
+                RX_STOP} state_t;
   state_t state;
   
   always_ff @(posedge i_clk or negedge i_rst_n)
@@ -59,6 +60,7 @@ module uart_rx #(
       state				<= RX_START;
     end else begin
       case (state)
+      
         RX_START: begin
           
           o_rx_err 			<= 1'b0;
@@ -80,6 +82,7 @@ module uart_rx #(
           end
                         
         end
+        
         RX_DATA: begin
           
           o_rx_err 			<= 1'b0;
@@ -102,6 +105,7 @@ module uart_rx #(
           end
           
         end
+        
         RX_PARITY: begin
           
           o_rx_err 			<= 1'b0;
@@ -113,15 +117,33 @@ module uart_rx #(
               oversamp_cnt 		<= oversamp_cnt + 1;
               if (oversamp_cnt == OVERSAMP_CNT_MAX - 1) begin
                 oversamp_cnt	<= '0;
-                state			<= RX_START;
-                o_rx_err 		<= ( (PARITY_EO==EVEN_PAR && (( ^o_rx_byte)  ^ rx)) || 
-                                     (PARITY_EO==ODD_PAR  && ((~^o_rx_byte) ~^ rx)) );
-                o_rx_byte_valid	<= ( (PARITY_EO==EVEN_PAR && ((~^o_rx_byte) ~^ rx)) || 
-                                     (PARITY_EO==ODD_PAR  && (( ^o_rx_byte)  ^ rx)) );
+                state			<= RX_STOP;
+                o_rx_err 		<= ( (PARITY_EO==EVEN_PAR && ((^o_rx_byte) ^ rx)) || 
+                                     (PARITY_EO==ODD_PAR  && ~((^o_rx_byte) ^ rx)) );
+                o_rx_byte_valid	<= ( (PARITY_EO==EVEN_PAR && ~((^o_rx_byte) ^ rx)) || 
+                                     (PARITY_EO==ODD_PAR  && ((^o_rx_byte) ^ rx)) );
               end
           end
           
         end
+        
+        RX_STOP: begin
+        
+          o_rx_err 			<= 1'b0;
+          o_rx_byte_valid	<= 1'b0;
+          
+          oversamp_pulsegen		<= oversamp_pulsegen + 1;
+          if (oversamp_pulsegen == OVERSAMP_PULSEGEN_MAX - 1) begin
+              oversamp_pulsegen	<= '0;
+              oversamp_cnt 		<= oversamp_cnt + 1;
+              if (oversamp_cnt == OVERSAMP_CNT_MAX - 1 && rx) begin
+                oversamp_cnt	<= '0;
+                state			<= RX_START;
+              end
+          end
+        
+        end
+        
         default: begin
           
           oversamp_pulsegen	<= '0;

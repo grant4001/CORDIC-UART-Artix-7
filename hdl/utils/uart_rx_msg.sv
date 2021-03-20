@@ -12,7 +12,8 @@ module uart_rx_msg (
     // out to uart_tx_msg
     output reg	[7:0]				o_cmd_reg,
     output reg						o_cmd_reg_valid,
-  output reg	[7:0]				o_burst_cnt,
+  	output reg	[7:0]				o_burst_cnt,
+    output reg                      o_burst_cnt_valid,
     output reg						o_rx_msg_err,
     
     // out to cordic
@@ -28,7 +29,7 @@ module uart_rx_msg (
   
   lfsr #(
     .N		(8),
-    .poly	(8'h3c)
+    .poly	(8'h9b)
   ) lfsr_inst (
     .i_clk,
     .i_rst_n,
@@ -86,6 +87,15 @@ module uart_rx_msg (
         end
           
       endcase
+      
+      if (i_rx_err||o_rx_msg_err) begin
+          crc_byte_done		<= 1'b0;
+          count2eight		<= '0;
+          lfsr_load			<= 1'b0;
+          lfsr_count_en		<= 1'b0;
+          lfsr_seed			<= '0;
+          lfsr_state		<= LFSR_STATE_LOAD;
+      end
     end
   
   // Message codes
@@ -119,22 +129,32 @@ module uart_rx_msg (
         cmd_seq_state		<= STATE_HEADER;
         count2six			<= '0;
         count2burst			<= '0;
-        o_burst_cnt			<= '0;
+        
+        // to tx msg
         o_cmd_reg			<= '0;
         o_cmd_reg_valid		<= 1'b0;
+        o_burst_cnt			<= '0;
+        o_burst_cnt_valid	<= '0;
         o_rx_msg_err		<= 1'b0;
+        
+        // to cordic
         o_cordic_start		<= 1'b0;
         o_cordic_theta		<= '0;
         o_cordic_pipeline_en<= 1'b1;
-        o_cordic_rst_n		<= 1'b1;
+        o_cordic_rst_n		<= 1'b0;
       end
     else begin
       
+      // to tx_msg
       o_cmd_reg				<= '0;
       o_cmd_reg_valid		<= 1'b0;
+      o_burst_cnt	        <= '0;
+      o_burst_cnt_valid	    <= '0;
       o_rx_msg_err			<= 1'b0;
+      
+      // to cordic
       o_cordic_start		<= 1'b0;
-      o_cordic_theta		<= '0;
+      o_cordic_theta		<= o_cordic_theta;
       o_cordic_pipeline_en	<= o_cordic_pipeline_en;
       o_cordic_rst_n		<= 1'b1;
       
@@ -143,7 +163,6 @@ module uart_rx_msg (
         STATE_HEADER: begin
           cmd_seq_state	<= STATE_HEADER;
           count2six		<= '0;
-          o_burst_cnt	<= '0;
           count2burst	<= '0;
           if (i_rx_byte_valid && i_rx_byte == BYTE_HEADER)
             cmd_seq_state	<= STATE_CMD;
@@ -177,9 +196,10 @@ module uart_rx_msg (
         
         STATE_BURST_TRANS: begin
           if (i_rx_byte_valid) begin
-            count2burst		<= i_rx_byte;
-            o_burst_cnt		<= i_rx_byte;
-            cmd_seq_state	<= STATE_BURST_TRANS_II;
+            count2burst		    <= i_rx_byte;
+            o_burst_cnt		    <= i_rx_byte;
+            o_burst_cnt_valid   <= 1'b1;
+            cmd_seq_state	    <= STATE_BURST_TRANS_II;
           end
         end
         
@@ -217,22 +237,39 @@ module uart_rx_msg (
         end
         
         default: begin
-          cmd_seq_state		<= STATE_HEADER;
-          count2six			<= '0;
-          count2burst			<= '0;
-          o_burst_cnt			<= '0;
-          o_rx_msg_err			<= 1'b0;
-          o_cordic_start		<= 1'b0;
-          o_cordic_theta		<= '0;
-          o_cordic_pipeline_en	<= 1'b1;
-          o_cordic_rst_n		<= 1'b1;
+            cmd_seq_state		<= STATE_HEADER;
+            count2six			<= '0;
+            count2burst			<= '0;
+            o_burst_cnt			<= '0;
+            o_burst_cnt_valid	<= '0;
+            o_cmd_reg			<= '0;
+            o_cmd_reg_valid		<= 1'b0;
+            o_rx_msg_err		<= 1'b0;
+            o_cordic_start		<= 1'b0;
+            o_cordic_theta		<= '0;
+            o_cordic_pipeline_en<= 1'b1;
+            o_cordic_rst_n		<= 1'b1;
         end
           
       endcase
       
-      if (i_rx_err) begin
-        cmd_seq_state	<= STATE_HEADER;
-        o_cordic_rst_n	<= 1'b0;
+      if (i_rx_err||o_rx_msg_err) begin
+        cmd_seq_state		<= STATE_HEADER;
+        count2six			<= '0;
+        count2burst			<= '0;
+        
+        // to tx msg
+        o_cmd_reg			<= '0;
+        o_cmd_reg_valid		<= 1'b0;
+        o_burst_cnt			<= '0;
+        o_burst_cnt_valid	<= '0;
+        o_rx_msg_err		<= 1'b0;
+        
+        // to cordic
+        o_cordic_start		<= 1'b0;
+        o_cordic_theta		<= '0;
+        o_cordic_pipeline_en<= 1'b1;
+        o_cordic_rst_n		<= 1'b0;
       end
       
     end
