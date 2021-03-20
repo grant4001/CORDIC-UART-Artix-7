@@ -1,20 +1,20 @@
 `default_nettype none
 
 module uart_rx #(
-  parameter CLK_FREQ_MHZ 	= 100_000_000,
-  parameter BAUD_RATE		=   3_000_000,
+  parameter CLK_FREQ_MHZ    = 100_000_000,
+  parameter BAUD_RATE       =   3_000_000,
   parameter OVERSAMPLE_RATE =          16, // Common choices: 8 or 16
-  parameter NUM_DATA_BITS	=			8, // Within 5-9
-  parameter PARITY_ON		=			1, // 0: Parity disabled. 1: Parity enabled.
-  parameter PARITY_EO		=			1  // 0: Even parity. 1: Odd parity.
+  parameter NUM_DATA_BITS   =           8, // Within 5-9
+  parameter PARITY_ON       =           1, // 0: Parity disabled. 1: Parity enabled.
+  parameter PARITY_EO       =           1  // 0: Even parity. 1: Odd parity.
 )
   (
-    input wire 		  				i_clk,
-    input wire 		  				i_rst_n,
-    input wire 		  				i_rx,
+    input wire                      i_clk,
+    input wire                      i_rst_n,
+    input wire                      i_rx,
     output reg  [NUM_DATA_BITS-1:0] o_rx_byte,
-    output reg 	  					o_rx_byte_valid,
-    output reg 	  	  				o_rx_err
+    output reg                      o_rx_byte_valid,
+    output reg                      o_rx_err
   );
   
   // Parity even/odd encoding
@@ -29,7 +29,7 @@ module uart_rx #(
   
   always @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) rx_sync <= 3'b000;
-    else		  rx_sync <= {rx_sync << 1, i_rx};
+    else          rx_sync <= {rx_sync << 1, i_rx};
   
   // Oversample pulse generation
   localparam OVERSAMP_PULSEGEN_MAX = int'(real'(CLK_FREQ_MHZ) / (real'(BAUD_RATE)*real'(OVERSAMPLE_RATE)));  
@@ -51,56 +51,56 @@ module uart_rx #(
   
   always_ff @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) begin
-      oversamp_pulsegen	<= '0;
-      oversamp_cnt		<= '0;
-      idx				<= '0;
-      o_rx_byte			<= '0;
-      o_rx_err			<= 1'b0;
-      o_rx_byte_valid	<= 1'b0;
-      state				<= RX_START;
+      oversamp_pulsegen <= '0;
+      oversamp_cnt      <= '0;
+      idx               <= '0;
+      o_rx_byte         <= '0;
+      o_rx_err          <= 1'b0;
+      o_rx_byte_valid   <= 1'b0;
+      state             <= RX_START;
     end else begin
       case (state)
       
         RX_START: begin
           
-          o_rx_err 			<= 1'b0;
-          o_rx_byte_valid	<= 1'b0;
+          o_rx_err          <= 1'b0;
+          o_rx_byte_valid   <= 1'b0;
           
           if (!rx) begin
-            oversamp_pulsegen	<= oversamp_pulsegen + 1;
+            oversamp_pulsegen   <= oversamp_pulsegen + 1;
             if (oversamp_pulsegen == OVERSAMP_PULSEGEN_MAX - 1) begin
-              oversamp_pulsegen	<= '0;
-              oversamp_cnt 		<= oversamp_cnt + 1;
+              oversamp_pulsegen <= '0;
+              oversamp_cnt      <= oversamp_cnt + 1;
               if (oversamp_cnt == OVERSAMP_CNT_MAX/2 - 1) begin
-              	oversamp_cnt 	<= '0;
-                state 			<= RX_DATA;
+                oversamp_cnt    <= '0;
+                state           <= RX_DATA;
               end
             end
           end else begin
-            oversamp_pulsegen 	<= '0;  
-            oversamp_cnt 		<= '0;
+            oversamp_pulsegen   <= '0;  
+            oversamp_cnt        <= '0;
           end
                         
         end
         
         RX_DATA: begin
           
-          o_rx_err 			<= 1'b0;
-          o_rx_byte_valid	<= 1'b0;
+          o_rx_err          <= 1'b0;
+          o_rx_byte_valid   <= 1'b0;
           
-          oversamp_pulsegen		<= oversamp_pulsegen + 1;
+          oversamp_pulsegen     <= oversamp_pulsegen + 1;
           if (oversamp_pulsegen == OVERSAMP_PULSEGEN_MAX - 1) begin
-              oversamp_pulsegen	<= '0;
-              oversamp_cnt 		<= oversamp_cnt + 1;
+              oversamp_pulsegen <= '0;
+              oversamp_cnt      <= oversamp_cnt + 1;
               if (oversamp_cnt == OVERSAMP_CNT_MAX - 1) begin
-              	oversamp_cnt 		<= '0;
-                idx					<= idx + 1;
-                o_rx_byte 			<= {rx, o_rx_byte[NUM_DATA_BITS-1:1]};
+                oversamp_cnt        <= '0;
+                idx                 <= idx + 1;
+                o_rx_byte           <= {rx, o_rx_byte[NUM_DATA_BITS-1:1]};
                 if (idx == NUM_DATA_BITS - 1)
                   if (PARITY_ON)
-                  	state 			<= RX_PARITY;
+                    state           <= RX_PARITY;
                   else
-                    state			<= RX_START;
+                    state           <= RX_START;
               end
           end
           
@@ -108,19 +108,19 @@ module uart_rx #(
         
         RX_PARITY: begin
           
-          o_rx_err 			<= 1'b0;
-          o_rx_byte_valid	<= 1'b0;
+          o_rx_err          <= 1'b0;
+          o_rx_byte_valid   <= 1'b0;
           
-          oversamp_pulsegen		<= oversamp_pulsegen + 1;
+          oversamp_pulsegen     <= oversamp_pulsegen + 1;
           if (oversamp_pulsegen == OVERSAMP_PULSEGEN_MAX - 1) begin
-              oversamp_pulsegen	<= '0;
-              oversamp_cnt 		<= oversamp_cnt + 1;
+              oversamp_pulsegen <= '0;
+              oversamp_cnt      <= oversamp_cnt + 1;
               if (oversamp_cnt == OVERSAMP_CNT_MAX - 1) begin
-                oversamp_cnt	<= '0;
-                state			<= RX_STOP;
-                o_rx_err 		<= ( (PARITY_EO==EVEN_PAR && ((^o_rx_byte) ^ rx)) || 
+                oversamp_cnt    <= '0;
+                state           <= RX_STOP;
+                o_rx_err        <= ( (PARITY_EO==EVEN_PAR && ((^o_rx_byte) ^ rx)) || 
                                      (PARITY_EO==ODD_PAR  && ~((^o_rx_byte) ^ rx)) );
-                o_rx_byte_valid	<= ( (PARITY_EO==EVEN_PAR && ~((^o_rx_byte) ^ rx)) || 
+                o_rx_byte_valid <= ( (PARITY_EO==EVEN_PAR && ~((^o_rx_byte) ^ rx)) || 
                                      (PARITY_EO==ODD_PAR  && ((^o_rx_byte) ^ rx)) );
               end
           end
@@ -129,16 +129,16 @@ module uart_rx #(
         
         RX_STOP: begin
         
-          o_rx_err 			<= 1'b0;
-          o_rx_byte_valid	<= 1'b0;
+          o_rx_err          <= 1'b0;
+          o_rx_byte_valid   <= 1'b0;
           
-          oversamp_pulsegen		<= oversamp_pulsegen + 1;
+          oversamp_pulsegen     <= oversamp_pulsegen + 1;
           if (oversamp_pulsegen == OVERSAMP_PULSEGEN_MAX - 1) begin
-              oversamp_pulsegen	<= '0;
-              oversamp_cnt 		<= oversamp_cnt + 1;
+              oversamp_pulsegen <= '0;
+              oversamp_cnt      <= oversamp_cnt + 1;
               if (oversamp_cnt == OVERSAMP_CNT_MAX - 1 && rx) begin
-                oversamp_cnt	<= '0;
-                state			<= RX_START;
+                oversamp_cnt    <= '0;
+                state           <= RX_START;
               end
           end
         
@@ -146,13 +146,13 @@ module uart_rx #(
         
         default: begin
           
-          oversamp_pulsegen	<= '0;
-          oversamp_cnt		<= '0;
-          idx				<= '0;
-          o_rx_byte			<= '0;
-          o_rx_err			<= 1'b0;
-          o_rx_byte_valid	<= 1'b0;
-          state				<= RX_START;
+          oversamp_pulsegen <= '0;
+          oversamp_cnt      <= '0;
+          idx               <= '0;
+          o_rx_byte         <= '0;
+          o_rx_err          <= 1'b0;
+          o_rx_byte_valid   <= 1'b0;
+          state             <= RX_START;
           
         end
           

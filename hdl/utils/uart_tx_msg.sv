@@ -1,24 +1,24 @@
 `default_nettype none
 
 module uart_tx_msg (
-    input wire		i_clk,
-    input wire		i_rst_n,
+    input wire      i_clk,
+    input wire      i_rst_n,
     
     // from uart_rx_msg
-    input wire [7:0]	i_cmd_reg,
-    input wire			i_cmd_valid,
-    input wire [7:0]	i_burst_cnt,
+    input wire [7:0]    i_cmd_reg,
+    input wire          i_cmd_valid,
+    input wire [7:0]    i_burst_cnt,
     input wire          i_burst_cnt_valid,
-  	input wire			i_rx_msg_err,
+    input wire          i_rx_msg_err,
     
     // from cordic
-    input wire [47:0]	i_cordic_sin_theta,
-    input wire [47:0]	i_cordic_cos_theta,
-    input wire			i_cordic_done,
+    input wire [47:0]   i_cordic_sin_theta,
+    input wire [47:0]   i_cordic_cos_theta,
+    input wire          i_cordic_done,
     
     // to uart tx
-    output reg [7:0]	o_tx_byte,
-    output reg			o_tx_byte_valid
+    output reg [7:0]    o_tx_byte,
+    output reg          o_tx_byte_valid
   );
   
   // LFSR to calculate CRC8
@@ -26,15 +26,15 @@ module uart_tx_msg (
   logic [7:0] lfsr_seed, lfsr_reg;
   
   lfsr #(
-    .N		(8),
-    .poly	(8'h9b)
+    .N      (8),
+    .poly   (8'h9b)
   ) lfsr_inst (
     .i_clk,
     .i_rst_n,
     .i_count_en (lfsr_count_en),
-    .i_load		(lfsr_load),
-    .i_seed		(lfsr_seed),
-    .o_lfsr		(lfsr_reg)
+    .i_load     (lfsr_load),
+    .i_seed     (lfsr_seed),
+    .o_lfsr     (lfsr_reg)
   );
   
   // LFSR control FSM
@@ -47,65 +47,65 @@ module uart_tx_msg (
     
   always_ff @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) begin
-      	count2eight			<= '0;
-      	crc_byte_done		<= 1'b0;
-      	lfsr_load			<= 1'b0;
-        lfsr_count_en		<= 1'b0;
-        lfsr_seed			<= '0;
-      	lfsr_state			<= LFSR_STATE_LOAD;
+        count2eight         <= '0;
+        crc_byte_done       <= 1'b0;
+        lfsr_load           <= 1'b0;
+        lfsr_count_en       <= 1'b0;
+        lfsr_seed           <= '0;
+        lfsr_state          <= LFSR_STATE_LOAD;
     end else begin
       
-      crc_byte_done		<= 1'b0;
-      lfsr_load			<= 1'b0;
-      lfsr_count_en		<= 1'b0;
+      crc_byte_done     <= 1'b0;
+      lfsr_load         <= 1'b0;
+      lfsr_count_en     <= 1'b0;
       
       case (lfsr_state) 
         LFSR_STATE_LOAD: begin
           if (o_tx_byte_valid) begin
-            lfsr_load	<= 1'b1;
-            lfsr_seed	<= lfsr_reg^o_tx_byte;
-			lfsr_state	<= LFSR_STATE_COUNT;
+            lfsr_load   <= 1'b1;
+            lfsr_seed   <= lfsr_reg^o_tx_byte;
+            lfsr_state  <= LFSR_STATE_COUNT;
           end
         end
         LFSR_STATE_COUNT: begin
-          lfsr_count_en	<= 1'b1;
-          count2eight	<= count2eight + 1;
+          lfsr_count_en <= 1'b1;
+          count2eight   <= count2eight + 1;
           if (count2eight == 7) begin
-            count2eight		<= '0;
-            lfsr_state		<= LFSR_DONE;
+            count2eight     <= '0;
+            lfsr_state      <= LFSR_DONE;
           end
         end
         LFSR_DONE: begin
-            crc_byte_done	<= 1'b1;
+            crc_byte_done   <= 1'b1;
             lfsr_state      <= LFSR_STATE_LOAD;
         end
         default: begin
-          crc_byte_done		<= 1'b0;
-          count2eight		<= '0;
-          lfsr_load			<= 1'b0;
-          lfsr_count_en		<= 1'b0;
-          lfsr_seed			<= '0;
-          lfsr_state		<= LFSR_STATE_LOAD;
+          crc_byte_done     <= 1'b0;
+          count2eight       <= '0;
+          lfsr_load         <= 1'b0;
+          lfsr_count_en     <= 1'b0;
+          lfsr_seed         <= '0;
+          lfsr_state        <= LFSR_STATE_LOAD;
         end
 
       endcase
       
       if (i_rx_msg_err) begin
-          crc_byte_done		<= 1'b0;
-          count2eight		<= '0;
-          lfsr_load			<= 1'b0;
-          lfsr_count_en		<= 1'b0;
-          lfsr_seed			<= '0;
-          lfsr_state		<= LFSR_STATE_LOAD;
+          crc_byte_done     <= 1'b0;
+          count2eight       <= '0;
+          lfsr_load         <= 1'b0;
+          lfsr_count_en     <= 1'b0;
+          lfsr_seed         <= '0;
+          lfsr_state        <= LFSR_STATE_LOAD;
       end
     end
   
   // Message codes
-  localparam [7:0] BYTE_HEADER			= 8'h5a;
-  localparam [7:0] CMD_SINGLE_TRANS 	= 8'hd1;
-  localparam [7:0] CMD_BURST_TRANS 		= 8'hd2;
-  localparam [7:0] CMD_DISABLE 			= 8'he1;
-  localparam [7:0] CMD_ENABLE			= 8'he2;
+  localparam [7:0] BYTE_HEADER          = 8'h5a;
+  localparam [7:0] CMD_SINGLE_TRANS     = 8'hd1;
+  localparam [7:0] CMD_BURST_TRANS      = 8'hd2;
+  localparam [7:0] CMD_DISABLE          = 8'he1;
+  localparam [7:0] CMD_ENABLE           = 8'he2;
   
   // FSM to recognize current operating cmd (length of operands needed for range cmd)
   // Once cmd is recognized, accept cordic outputs and transmit byte-wise to uart_tx along w/ crc
@@ -128,7 +128,7 @@ module uart_tx_msg (
   
   always_ff @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) begin
-      tx_msg_state	    <= STATE_IDLE;
+      tx_msg_state      <= STATE_IDLE;
       bytes2send        <= '{default:'0};
       byte_cnt          <= '0;
       burst_cnt         <= '0;
@@ -237,7 +237,7 @@ module uart_tx_msg (
             end
         end
         default: begin
-              tx_msg_state	    <= STATE_IDLE;
+              tx_msg_state      <= STATE_IDLE;
               o_tx_byte_valid   <= 1'b0;
               o_tx_byte         <= '0;
               bytes2send        <= '{default:'0};
@@ -247,7 +247,7 @@ module uart_tx_msg (
       endcase
       
       if (i_rx_msg_err) begin
-          tx_msg_state	    <= STATE_IDLE;
+          tx_msg_state      <= STATE_IDLE;
           bytes2send        <= '{default:'0};
           byte_cnt          <= '0;
           burst_cnt         <= '0;
@@ -255,6 +255,6 @@ module uart_tx_msg (
           o_tx_byte         <= '0;
       end
       
-  	end
+    end
   
 endmodule

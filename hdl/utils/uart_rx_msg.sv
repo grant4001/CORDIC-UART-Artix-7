@@ -1,26 +1,26 @@
 `default_nettype none
 
 module uart_rx_msg (
-    input wire 		  				i_clk,
-    input wire 		  				i_rst_n,
+    input wire                      i_clk,
+    input wire                      i_rst_n,
     
     // in from uart_rx
-  	input wire  [7:0] 				i_rx_byte,
-    input wire 		  				i_rx_byte_valid,
-    input wire						i_rx_err,
+    input wire  [7:0]               i_rx_byte,
+    input wire                      i_rx_byte_valid,
+    input wire                      i_rx_err,
     
     // out to uart_tx_msg
-    output reg	[7:0]				o_cmd_reg,
-    output reg						o_cmd_reg_valid,
-  	output reg	[7:0]				o_burst_cnt,
+    output reg  [7:0]               o_cmd_reg,
+    output reg                      o_cmd_reg_valid,
+    output reg  [7:0]               o_burst_cnt,
     output reg                      o_burst_cnt_valid,
-    output reg						o_rx_msg_err,
+    output reg                      o_rx_msg_err,
     
     // out to cordic
-    output reg 	  					o_cordic_start,
-  	output reg 	[47:0]				o_cordic_theta,
-    output reg						o_cordic_pipeline_en,
-    output reg						o_cordic_rst_n  	
+    output reg                      o_cordic_start,
+    output reg  [47:0]              o_cordic_theta,
+    output reg                      o_cordic_pipeline_en,
+    output reg                      o_cordic_rst_n      
   );
   
   // LFSR module used to calculate CRC-8
@@ -28,15 +28,15 @@ module uart_rx_msg (
   logic [7:0] lfsr_seed, lfsr_reg;
   
   lfsr #(
-    .N		(8),
-    .poly	(8'h9b)
+    .N      (8),
+    .poly   (8'h9b)
   ) lfsr_inst (
     .i_clk,
     .i_rst_n,
     .i_count_en (lfsr_count_en),
-    .i_load		(lfsr_load),
-    .i_seed		(lfsr_seed),
-    .o_lfsr		(lfsr_reg)
+    .i_load     (lfsr_load),
+    .i_seed     (lfsr_seed),
+    .o_lfsr     (lfsr_reg)
   );
   
   // LFSR control FSM
@@ -48,62 +48,62 @@ module uart_rx_msg (
 
   always_ff @(posedge i_clk or negedge i_rst_n)
     if (!i_rst_n) begin
-      	count2eight			<= '0;
-      	crc_byte_done		<= 1'b0;
-      	lfsr_load			<= 1'b0;
-        lfsr_count_en		<= 1'b0;
-        lfsr_seed			<= '0;
-      	lfsr_state			<= LFSR_STATE_LOAD;
+        count2eight         <= '0;
+        crc_byte_done       <= 1'b0;
+        lfsr_load           <= 1'b0;
+        lfsr_count_en       <= 1'b0;
+        lfsr_seed           <= '0;
+        lfsr_state          <= LFSR_STATE_LOAD;
     end else begin
       
-      crc_byte_done		<= 1'b0;
-      lfsr_load			<= 1'b0;
-      lfsr_count_en		<= 1'b0;
+      crc_byte_done     <= 1'b0;
+      lfsr_load         <= 1'b0;
+      lfsr_count_en     <= 1'b0;
       
       case (lfsr_state) 
         LFSR_STATE_LOAD: begin
           if (i_rx_byte_valid) begin
-            lfsr_load	<= 1'b1;
-            lfsr_seed	<= lfsr_reg^i_rx_byte;
-			lfsr_state	<= LFSR_STATE_COUNT;
+            lfsr_load   <= 1'b1;
+            lfsr_seed   <= lfsr_reg^i_rx_byte;
+            lfsr_state  <= LFSR_STATE_COUNT;
           end
         end
         LFSR_STATE_COUNT: begin
-          lfsr_count_en	<= 1'b1;
-          count2eight	<= count2eight + 1;
+          lfsr_count_en <= 1'b1;
+          count2eight   <= count2eight + 1;
           if (count2eight == 7) begin
-            count2eight		<= '0;
-            crc_byte_done	<= 1'b1;
-            lfsr_state		<= LFSR_STATE_LOAD;
+            count2eight     <= '0;
+            crc_byte_done   <= 1'b1;
+            lfsr_state      <= LFSR_STATE_LOAD;
           end
         end
         default: begin
-          crc_byte_done		<= 1'b0;
-          count2eight		<= '0;
-          lfsr_load			<= 1'b0;
-          lfsr_count_en		<= 1'b0;
-          lfsr_seed			<= '0;
-          lfsr_state		<= LFSR_STATE_LOAD;
+          crc_byte_done     <= 1'b0;
+          count2eight       <= '0;
+          lfsr_load         <= 1'b0;
+          lfsr_count_en     <= 1'b0;
+          lfsr_seed         <= '0;
+          lfsr_state        <= LFSR_STATE_LOAD;
         end
           
       endcase
       
       if (i_rx_err||o_rx_msg_err) begin
-          crc_byte_done		<= 1'b0;
-          count2eight		<= '0;
-          lfsr_load			<= 1'b0;
-          lfsr_count_en		<= 1'b0;
-          lfsr_seed			<= '0;
-          lfsr_state		<= LFSR_STATE_LOAD;
+          crc_byte_done     <= 1'b0;
+          count2eight       <= '0;
+          lfsr_load         <= 1'b0;
+          lfsr_count_en     <= 1'b0;
+          lfsr_seed         <= '0;
+          lfsr_state        <= LFSR_STATE_LOAD;
       end
     end
   
   // Message codes
-  localparam [7:0] BYTE_HEADER			= 8'h5a;
-  localparam [7:0] CMD_SINGLE_TRANS 	= 8'hd1;
-  localparam [7:0] CMD_BURST_TRANS 		= 8'hd2;
-  localparam [7:0] CMD_DISABLE 			= 8'he1;
-  localparam [7:0] CMD_ENABLE			= 8'he2;
+  localparam [7:0] BYTE_HEADER          = 8'h5a;
+  localparam [7:0] CMD_SINGLE_TRANS     = 8'hd1;
+  localparam [7:0] CMD_BURST_TRANS      = 8'hd2;
+  localparam [7:0] CMD_DISABLE          = 8'he1;
+  localparam [7:0] CMD_ENABLE           = 8'he2;
   
   // CMD sequence FSM
   typedef enum {STATE_HEADER,
@@ -126,150 +126,150 @@ module uart_rx_msg (
     
     if (!i_rst_n)
       begin
-        cmd_seq_state		<= STATE_HEADER;
-        count2six			<= '0;
-        count2burst			<= '0;
+        cmd_seq_state       <= STATE_HEADER;
+        count2six           <= '0;
+        count2burst         <= '0;
         
         // to tx msg
-        o_cmd_reg			<= '0;
-        o_cmd_reg_valid		<= 1'b0;
-        o_burst_cnt			<= '0;
-        o_burst_cnt_valid	<= '0;
-        o_rx_msg_err		<= 1'b0;
+        o_cmd_reg           <= '0;
+        o_cmd_reg_valid     <= 1'b0;
+        o_burst_cnt         <= '0;
+        o_burst_cnt_valid   <= '0;
+        o_rx_msg_err        <= 1'b0;
         
         // to cordic
-        o_cordic_start		<= 1'b0;
-        o_cordic_theta		<= '0;
+        o_cordic_start      <= 1'b0;
+        o_cordic_theta      <= '0;
         o_cordic_pipeline_en<= 1'b1;
-        o_cordic_rst_n		<= 1'b0;
+        o_cordic_rst_n      <= 1'b0;
       end
     else begin
       
       // to tx_msg
-      o_cmd_reg				<= '0;
-      o_cmd_reg_valid		<= 1'b0;
-      o_burst_cnt	        <= '0;
-      o_burst_cnt_valid	    <= '0;
-      o_rx_msg_err			<= 1'b0;
+      o_cmd_reg             <= '0;
+      o_cmd_reg_valid       <= 1'b0;
+      o_burst_cnt           <= '0;
+      o_burst_cnt_valid     <= '0;
+      o_rx_msg_err          <= 1'b0;
       
       // to cordic
-      o_cordic_start		<= 1'b0;
-      o_cordic_theta		<= o_cordic_theta;
-      o_cordic_pipeline_en	<= o_cordic_pipeline_en;
-      o_cordic_rst_n		<= 1'b1;
+      o_cordic_start        <= 1'b0;
+      o_cordic_theta        <= o_cordic_theta;
+      o_cordic_pipeline_en  <= o_cordic_pipeline_en;
+      o_cordic_rst_n        <= 1'b1;
       
       case (cmd_seq_state)
         
         STATE_HEADER: begin
-          cmd_seq_state	<= STATE_HEADER;
-          count2six		<= '0;
-          count2burst	<= '0;
+          cmd_seq_state <= STATE_HEADER;
+          count2six     <= '0;
+          count2burst   <= '0;
           if (i_rx_byte_valid && i_rx_byte == BYTE_HEADER)
-            cmd_seq_state	<= STATE_CMD;
+            cmd_seq_state   <= STATE_CMD;
         end
         
         STATE_CMD: begin
           if (i_rx_byte_valid) begin
             case (i_rx_byte)
-              CMD_SINGLE_TRANS: cmd_seq_state	<= STATE_SINGLE_TRANS;
-              CMD_BURST_TRANS:  cmd_seq_state	<= STATE_BURST_TRANS;
-              CMD_DISABLE: 		cmd_seq_state	<= STATE_DISABLE;
-              CMD_ENABLE: 		cmd_seq_state	<= STATE_ENABLE;
-              default:			cmd_seq_state	<= STATE_HEADER;
+              CMD_SINGLE_TRANS: cmd_seq_state   <= STATE_SINGLE_TRANS;
+              CMD_BURST_TRANS:  cmd_seq_state   <= STATE_BURST_TRANS;
+              CMD_DISABLE:      cmd_seq_state   <= STATE_DISABLE;
+              CMD_ENABLE:       cmd_seq_state   <= STATE_ENABLE;
+              default:          cmd_seq_state   <= STATE_HEADER;
             endcase
-            o_cmd_reg		<= i_rx_byte;
-            o_cmd_reg_valid	<= 1'b1;
+            o_cmd_reg       <= i_rx_byte;
+            o_cmd_reg_valid <= 1'b1;
           end
         end
         
         STATE_SINGLE_TRANS: begin
           if (i_rx_byte_valid) begin
-            o_cordic_theta	<= {i_rx_byte, o_cordic_theta[47:8]};
-            count2six		<= count2six + 1;
+            o_cordic_theta  <= {i_rx_byte, o_cordic_theta[47:8]};
+            count2six       <= count2six + 1;
             if (count2six == 5) begin
-              count2six			<= '0;
-              o_cordic_start	<= 1'b1;
-              cmd_seq_state		<= STATE_CRC_CHECK;
+              count2six         <= '0;
+              o_cordic_start    <= 1'b1;
+              cmd_seq_state     <= STATE_CRC_CHECK;
             end
           end
         end
         
         STATE_BURST_TRANS: begin
           if (i_rx_byte_valid) begin
-            count2burst		    <= i_rx_byte;
-            o_burst_cnt		    <= i_rx_byte;
+            count2burst         <= i_rx_byte;
+            o_burst_cnt         <= i_rx_byte;
             o_burst_cnt_valid   <= 1'b1;
-            cmd_seq_state	    <= STATE_BURST_TRANS_II;
+            cmd_seq_state       <= STATE_BURST_TRANS_II;
           end
         end
         
         STATE_BURST_TRANS_II: begin
           if (i_rx_byte_valid) begin
-            o_cordic_theta	<= {i_rx_byte, o_cordic_theta[47:8]};
-            count2six		<= count2six + 1;
+            o_cordic_theta  <= {i_rx_byte, o_cordic_theta[47:8]};
+            count2six       <= count2six + 1;
             if (count2six == 5) begin
-              count2six			<= '0;
-              o_cordic_start	<= 1'b1;
-              count2burst		<= count2burst - 1;
+              count2six         <= '0;
+              o_cordic_start    <= 1'b1;
+              count2burst       <= count2burst - 1;
               if (count2burst == 1) begin
-                cmd_seq_state		<= STATE_CRC_CHECK;
+                cmd_seq_state       <= STATE_CRC_CHECK;
               end
             end
           end
         end
         
         STATE_DISABLE: begin
-          o_cordic_pipeline_en	<= 1'b0;
-          o_cordic_rst_n		<= 1'b0;
-          cmd_seq_state			<= STATE_CRC_CHECK;
+          o_cordic_pipeline_en  <= 1'b0;
+          o_cordic_rst_n        <= 1'b0;
+          cmd_seq_state         <= STATE_CRC_CHECK;
         end
         
         STATE_ENABLE: begin
-          o_cordic_pipeline_en	<= 1'b1;
-          cmd_seq_state			<= STATE_CRC_CHECK;
+          o_cordic_pipeline_en  <= 1'b1;
+          cmd_seq_state         <= STATE_CRC_CHECK;
         end
         
         STATE_CRC_CHECK: begin
           if (crc_byte_done) begin
-            cmd_seq_state	<= STATE_HEADER;
-            o_rx_msg_err	<= !lfsr_reg;
+            cmd_seq_state   <= STATE_HEADER;
+            o_rx_msg_err    <= !lfsr_reg;
           end
         end
         
         default: begin
-            cmd_seq_state		<= STATE_HEADER;
-            count2six			<= '0;
-            count2burst			<= '0;
-            o_burst_cnt			<= '0;
-            o_burst_cnt_valid	<= '0;
-            o_cmd_reg			<= '0;
-            o_cmd_reg_valid		<= 1'b0;
-            o_rx_msg_err		<= 1'b0;
-            o_cordic_start		<= 1'b0;
-            o_cordic_theta		<= '0;
+            cmd_seq_state       <= STATE_HEADER;
+            count2six           <= '0;
+            count2burst         <= '0;
+            o_burst_cnt         <= '0;
+            o_burst_cnt_valid   <= '0;
+            o_cmd_reg           <= '0;
+            o_cmd_reg_valid     <= 1'b0;
+            o_rx_msg_err        <= 1'b0;
+            o_cordic_start      <= 1'b0;
+            o_cordic_theta      <= '0;
             o_cordic_pipeline_en<= 1'b1;
-            o_cordic_rst_n		<= 1'b1;
+            o_cordic_rst_n      <= 1'b1;
         end
           
       endcase
       
       if (i_rx_err||o_rx_msg_err) begin
-        cmd_seq_state		<= STATE_HEADER;
-        count2six			<= '0;
-        count2burst			<= '0;
+        cmd_seq_state       <= STATE_HEADER;
+        count2six           <= '0;
+        count2burst         <= '0;
         
         // to tx msg
-        o_cmd_reg			<= '0;
-        o_cmd_reg_valid		<= 1'b0;
-        o_burst_cnt			<= '0;
-        o_burst_cnt_valid	<= '0;
-        o_rx_msg_err		<= 1'b0;
+        o_cmd_reg           <= '0;
+        o_cmd_reg_valid     <= 1'b0;
+        o_burst_cnt         <= '0;
+        o_burst_cnt_valid   <= '0;
+        o_rx_msg_err        <= 1'b0;
         
         // to cordic
-        o_cordic_start		<= 1'b0;
-        o_cordic_theta		<= '0;
+        o_cordic_start      <= 1'b0;
+        o_cordic_theta      <= '0;
         o_cordic_pipeline_en<= 1'b1;
-        o_cordic_rst_n		<= 1'b0;
+        o_cordic_rst_n      <= 1'b0;
       end
       
     end

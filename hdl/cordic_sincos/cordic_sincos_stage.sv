@@ -37,34 +37,34 @@ module cordic_sincos_stage #(
       
       always_ff @(posedge i_clk or negedge i_rst_n)
         if (!i_rst_n) begin
-          o_valid	<= 1'b0;
-          o_sign	<= 1'b0;
-          o_cos		<= '0;
-          o_sin		<= '0;
-          o_theta	<= '0;
-        end else if (i_pipeline_en) begin 			
-          o_valid	<= i_valid;
-          o_sign	<= i_sign;
-          o_cos		<= cos_sign_check;
-          o_sin		<= sin_sign_check;
-          o_theta	<= i_theta + delta_theta;
+          o_valid   <= 1'b0;
+          o_sign    <= 1'b0;
+          o_cos     <= '0;
+          o_sin     <= '0;
+          o_theta   <= '0;
+        end else if (i_pipeline_en) begin           
+          o_valid   <= i_valid;
+          o_sign    <= i_sign;
+          o_cos     <= cos_sign_check;
+          o_sin     <= sin_sign_check;
+          o_theta   <= i_theta + delta_theta;
         end
         
     end else
     
       always_ff @(posedge i_clk or negedge i_rst_n)
         if (!i_rst_n) begin
-          o_valid	<= 1'b0;
-          o_sign	<= 1'b0;
-          o_cos		<= '0;
-          o_sin		<= '0;
-          o_theta	<= '0;
-        end else if (i_pipeline_en) begin 			
-          o_valid	<= i_valid;
-          o_sign	<= i_sign;
-          o_cos		<= i_cos + delta_cos;
-          o_sin		<= i_sin + delta_sin;
-          o_theta	<= i_theta + delta_theta;
+          o_valid   <= 1'b0;
+          o_sign    <= 1'b0;
+          o_cos     <= '0;
+          o_sin     <= '0;
+          o_theta   <= '0;
+        end else if (i_pipeline_en) begin           
+          o_valid   <= i_valid;
+          o_sign    <= i_sign;
+          o_cos     <= i_cos + delta_cos;
+          o_sin     <= i_sin + delta_sin;
+          o_theta   <= i_theta + delta_theta;
         end
         
     endgenerate
