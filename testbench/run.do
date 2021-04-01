@@ -1,32 +1,79 @@
-vlib work
-vlog -sv ../hdl/cordic_sincos/pkg_cordic_sincos.sv \
-         ../hdl/cordic_sincos/cordic_sincos_preprocess.sv \
-         ../hdl/cordic_sincos/cordic_sincos_stage.sv \
-         ../hdl/cordic_sincos/cordic_sincos.sv \
-         ../hdl/utils/lfsr.sv \
-         ../hdl/utils/bram.sv \
-         ../hdl/utils/sync_fifo.sv \
-         ../hdl/utils/uart_rx.sv \
-         ../hdl/utils/uart_tx.sv \
-         ../hdl/utils/uart_rx_msg.sv \
-         ../hdl/utils/uart_tx_msg.sv \
-         ../hdl/utils/top_module.sv \
-         testbench.sv
-vsim work.testbench
-add wave -group testbench
-add wave -group testbench -radix hexadecimal testbench/*
-add wave -group testbench/dut
-add wave -group testbench/dut -radix hexadecimal testbench/dut/*
-add wave -group testbench/dut/uart_rx_module
-add wave -group testbench/dut/uart_rx_module -radix hexadecimal testbench/dut/uart_rx_module/*
-add wave -group testbench/dut/uart_rx_msg_module
-add wave -group testbench/dut/uart_rx_msg_module -radix hexadecimal testbench/dut/uart_rx_msg_module/*
-add wave -group testbench/dut/cordic_sincos_module
-add wave -group testbench/dut/cordic_sincos_module -radix hexadecimal testbench/dut/cordic_sincos_module/*
-add wave -group testbench/dut/uart_tx_msg_module
-add wave -group testbench/dut/uart_tx_msg_module -radix hexadecimal testbench/dut/uart_tx_msg_module/*
-add wave -group testbench/dut/sync_fifo_inst
-add wave -group testbench/dut/sync_fifo_inst -radix hexadecimal testbench/dut/sync_fifo_inst/*
-add wave -group testbench/dut/uart_tx_module
-add wave -group testbench/dut/uart_tx_module -radix hexadecimal testbench/dut/uart_tx_module/*
+#
+# File:        run.do
+# Author:      Grant Yu
+# Date:        03/2021
+# Description: TCL script for running the cordic UVM TB on QuestaSim. Credits to this file go to Siemens EDA.
+#
+.main clear
+quietly set debugop ""
+quietly set ipargs ""
+quietly set vsimarg ""
+quietly set labname ""
+while {$argc > 0} {
+    quietly set iparg $1
+    lappend ipargs $iparg
+	shift
+   }
+
+foreach i $ipargs {
+    if {$i == "classdbg"} {
+      puts "Running vsim with debug: -classdebug -uvmcontrol=all -msgmode both"
+      set debugop "$space -gui -msgmode both -classdebug -uvmcontrol=all"
+	  set do_args "onfinish stop; run 0"
+     } else {
+	  lappend vsimarg $i
+	 }
+}
+
+quietly set totargs "$vsimarg $debugop"
+quietly set testname [lindex $totargs 0]
+quietly set simargs [lrange $totargs 1 end]
+
+puts "Compiling and running batch with test name $testname"
+
+# Delete the work library to make sure a compile error prevents vsim from running
+file delete -force work
+
+# Create empty Questa library
+if {[catch {vlib work} ]} {
+   puts "vlib exited with errors $errmsg, exiting VLIB"
+   break
+} 
+
+# Compile the SystemVerilog code
+if {[catch {vlog -f run.f} errmsg ]} {
+   puts "vlog exited with errors $errmsg, exiting VLOG"
+   break
+} 
+
+# Optimize the dual-top design with debug access 
+if {[catch {vopt +acc top_hdl top_tb -o top_opt} errmsg ]} {
+   puts "vopt exited with errors $errmsg, exiting VLOG"
+   break
+} 
+
+# Simulate the optimized dual-top design
+vsim {*}$simargs +UVM_TESTNAME=$testname +UVM_VERBOSITY=UVM_DEBUG +UVM_NO_RELNOTES top_opt \
+    +uvm_set_config_int=uvm_test_top,num_dis_en_items,5 \
+    +uvm_set_config_int=uvm_test_top,num_sing_cmd_items,50 \
+    +uvm_set_config_int=uvm_test_top,num_burst_cmd_items,50 
+
+add wave -group top_hdl/
+add wave -group top_hdl/ -radix hexadecimal /top_hdl/*
+
+add wave -group top_hdl/DUT/
+add wave -group top_hdl/DUT/ -radix hexadecimal /top_hdl/DUT/*
+
+add wave -group top_hdl/DUT/uart_rx_module
+add wave -group top_hdl/DUT/uart_rx_module -radix hexadecimal /top_hdl/DUT/uart_rx_module/*
+
+add wave -group top_hdl/DUT/uart_rx_msg_module
+add wave -group top_hdl/DUT/uart_rx_msg_module -radix hexadecimal /top_hdl/DUT/uart_rx_msg_module/*
+
+add wave -group top_hdl/DUT/uart_tx_msg_module
+add wave -group top_hdl/DUT/uart_tx_msg_module -radix hexadecimal /top_hdl/DUT/uart_tx_msg_module/*
+
+add wave -group top_hdl/DUT/uart_tx_module
+add wave -group top_hdl/DUT/uart_tx_module -radix hexadecimal /top_hdl/DUT/uart_tx_module/*
+
 run -all

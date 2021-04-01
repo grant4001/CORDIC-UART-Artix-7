@@ -1,3 +1,10 @@
+//
+// File:        uart_rx.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Generic parametrized UART receiver module 
+//
+
 `default_nettype none
 
 module uart_rx #(

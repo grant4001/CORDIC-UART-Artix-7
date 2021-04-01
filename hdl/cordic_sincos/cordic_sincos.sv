@@ -1,3 +1,10 @@
+//
+// File:        cordic_sincos.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Top-level wrapper for a pipelined CORDIC block
+//
+
 `default_nettype none
 import pkg_cordic_sincos::*;
 

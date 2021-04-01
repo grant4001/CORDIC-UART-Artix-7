@@ -1,3 +1,11 @@
+//
+// File:        top_module.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Top-level module for a CORDIC demonstration design on FPGA that includes UART communications
+//              as well as a custom messaging protocol.
+//
+
 `default_nettype none
 
 module top_module 

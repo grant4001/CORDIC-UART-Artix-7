@@ -1,3 +1,10 @@
+//
+// File:        basic_tb.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Basic directed testbench to stimulate the CORDIC 
+//
+
 `timescale 1ns/1ps
 
 module testbench;

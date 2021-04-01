@@ -1,4 +1,14 @@
+//
+// File:        uart_tx_msg.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: This module transmits UART messages based on a custom messaging protocol used to communicate
+//              with the CORDIC module realized in the FPGA.
+//
+
 `default_nettype none
+
+import pkg_msg::*;
 
 module uart_tx_msg (
     input wire      i_clk,
@@ -27,7 +37,7 @@ module uart_tx_msg (
   
   lfsr #(
     .N      (8),
-    .poly   (8'h9b)
+    .poly   (POLY)
   ) lfsr_inst (
     .i_clk,
     .i_rst_n,
@@ -100,20 +110,17 @@ module uart_tx_msg (
       end
     end
   
-  // Message codes
-  localparam [7:0] BYTE_HEADER          = 8'h5a;
-  localparam [7:0] CMD_SINGLE_TRANS     = 8'hd1;
-  localparam [7:0] CMD_BURST_TRANS      = 8'hd2;
-  localparam [7:0] CMD_DISABLE          = 8'he1;
-  localparam [7:0] CMD_ENABLE           = 8'he2;
-  
   // FSM to recognize current operating cmd (length of operands needed for range cmd)
   // Once cmd is recognized, accept cordic outputs and transmit byte-wise to uart_tx along w/ crc
   typedef enum {STATE_IDLE,
                 STATE_SINGLE_TRANS,
                 STATE_SINGLE_TRANS_II,
+                STATE_SINGLE_TRANS_III,
                 STATE_BURST_TRANS,
                 STATE_BURST_TRANS_II,
+                STATE_BURST_TRANS_III,
+                STATE_BURST_TRANS_IV,
+                STATE_BURST_TRANS_V,
                 STATE_DISABLE,
                 STATE_DISABLE_II,
                 STATE_ENABLE,
@@ -162,8 +169,25 @@ module uart_tx_msg (
                 o_tx_byte           <= BYTE_HEADER;
                 tx_msg_state        <= STATE_SINGLE_TRANS_II;
             end
+
+            if (i_cmd_valid) begin
+                case (i_cmd_reg) 
+                    CMD_SINGLE_TRANS:   tx_msg_state  <= STATE_SINGLE_TRANS;
+                    CMD_BURST_TRANS:    tx_msg_state  <= STATE_BURST_TRANS;
+                    CMD_DISABLE:        tx_msg_state  <= STATE_DISABLE;
+                    CMD_ENABLE:         tx_msg_state  <= STATE_ENABLE;
+                    default:            tx_msg_state  <= STATE_IDLE;
+                endcase
+            end
         end
         STATE_SINGLE_TRANS_II: begin
+            if (crc_byte_done) begin
+                o_tx_byte_valid         <= 1'b1;
+                o_tx_byte               <= CMD_SINGLE_TRANS;
+                tx_msg_state            <= STATE_SINGLE_TRANS_III;
+            end
+        end
+        STATE_SINGLE_TRANS_III: begin
             o_tx_byte_valid         <= 1'b0;
             o_tx_byte               <= '0;
             if (crc_byte_done) begin
@@ -187,28 +211,63 @@ module uart_tx_msg (
                 end
                 o_tx_byte_valid     <= 1'b1;
                 o_tx_byte           <= BYTE_HEADER;
-                tx_msg_state        <= STATE_SINGLE_TRANS_II;
+                tx_msg_state        <= STATE_BURST_TRANS_II;
+            end
+
+            if (i_cmd_valid) begin
+                case (i_cmd_reg) 
+                    CMD_SINGLE_TRANS:   tx_msg_state  <= STATE_SINGLE_TRANS;
+                    CMD_BURST_TRANS:    tx_msg_state  <= STATE_BURST_TRANS;
+                    CMD_DISABLE:        tx_msg_state  <= STATE_DISABLE;
+                    CMD_ENABLE:         tx_msg_state  <= STATE_ENABLE;
+                    default:            tx_msg_state  <= STATE_IDLE;
+                endcase
             end
         end
         STATE_BURST_TRANS_II: begin
-            o_tx_byte_valid         <= 1'b0;
-            o_tx_byte               <= '0;
+            if (crc_byte_done) begin
+                o_tx_byte_valid         <= 1'b1;
+                o_tx_byte               <= CMD_BURST_TRANS;
+                tx_msg_state            <= STATE_BURST_TRANS_III;
+            end
+        end
+        STATE_BURST_TRANS_III: begin
+            if (crc_byte_done) begin
+                o_tx_byte_valid         <= 1'b1;
+                o_tx_byte               <= burst_cnt;
+                tx_msg_state            <= STATE_BURST_TRANS_V;
+            end
+        end
+        STATE_BURST_TRANS_IV: begin
+            byte_cnt            <= 11;
+            if (i_cordic_done) begin
+                for (int i = 0; i < 6; i++) begin
+                    bytes2send[i]       <= i_cordic_cos_theta[(8*i)+7 -: 8];
+                    bytes2send[i+6]     <= i_cordic_sin_theta[(8*i)+7 -: 8];
+                end
+                o_tx_byte_valid     <= 1'b1;
+                o_tx_byte           <= i_cordic_cos_theta[7:0];
+                tx_msg_state        <= STATE_BURST_TRANS_V;
+            end
+        end
+        STATE_BURST_TRANS_V: begin
             if (crc_byte_done) begin
                 o_tx_byte_valid     <= 1'b1;
                 o_tx_byte           <= bytes2send[12 - byte_cnt];
                 byte_cnt            <= byte_cnt - 1;
-                burst_cnt           <= burst_cnt - 1;
-                if (burst_cnt == 1) begin
-                    tx_msg_state    <= STATE_TX_CRC8;
-                end else if (byte_cnt == 1) begin
-                    tx_msg_state    <= STATE_BURST_TRANS;
+                if (byte_cnt == 1) begin
+                    burst_cnt           <= burst_cnt - 1;
+                    if (burst_cnt == 1)
+                        tx_msg_state    <= STATE_TX_CRC8;
+                    else
+                        tx_msg_state    <= STATE_BURST_TRANS_IV;
                 end
             end
         end
         STATE_DISABLE: begin
             o_tx_byte_valid     <= 1'b1;
             o_tx_byte           <= BYTE_HEADER;
-            tx_msg_state        <= STATE_TX_CRC8;
+            tx_msg_state        <= STATE_DISABLE_II;
         end
         STATE_DISABLE_II: begin
             if (crc_byte_done) begin
@@ -220,7 +279,7 @@ module uart_tx_msg (
         STATE_ENABLE: begin
             o_tx_byte_valid     <= 1'b1;
             o_tx_byte           <= BYTE_HEADER;
-            tx_msg_state        <= STATE_TX_CRC8;
+            tx_msg_state        <= STATE_ENABLE_II;
         end
         STATE_ENABLE_II: begin
             if (crc_byte_done) begin

@@ -1,3 +1,11 @@
+//
+// File:        sync_fifo.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Generic parametrized synchronous FIFO using a block RAM implementation. Has access
+//              to 2^WIDTH memory slots and internal write/read pointer widths of WIDTH+1.
+//
+
 `default_nettype none
 
 module sync_fifo #(

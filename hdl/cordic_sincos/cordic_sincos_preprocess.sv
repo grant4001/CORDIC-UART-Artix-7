@@ -1,3 +1,11 @@
+//
+// File:        cordic_sincos_preprocess.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Data preprocessing pipeline stage for the input theta. Includes
+//              angle and sign correction as well as initial register settings.
+//
+
 `default_nettype none
 import pkg_cordic_sincos::*;
 

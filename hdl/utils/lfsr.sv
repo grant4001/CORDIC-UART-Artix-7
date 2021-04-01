@@ -1,3 +1,11 @@
+//
+// File:        lfsr.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Generic Galois-type LFSR with parametrized generator polynomial and 
+//              flow control signals including a load and count_enable signal.
+//
+
 `default_nettype none
 
 module lfsr #(

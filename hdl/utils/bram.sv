@@ -1,3 +1,10 @@
+//
+// File:        bram.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Generic parametrized block RAM with synchronous read and write
+//
+
 `default_nettype none
 
 module bram #(

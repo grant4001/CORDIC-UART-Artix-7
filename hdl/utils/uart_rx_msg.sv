@@ -1,4 +1,15 @@
+//
+// File:        uart_rx_msg.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: This module is a message parser that operates on received UART packets. The message 
+//              codes and sequences are implemented, and a Galois LFSR is wrapped within this module 
+//              to compute the CRC-8.
+//
+
 `default_nettype none
+
+import pkg_msg::*;
 
 module uart_rx_msg (
     input wire                      i_clk,
@@ -29,7 +40,7 @@ module uart_rx_msg (
   
   lfsr #(
     .N      (8),
-    .poly   (8'h9b)
+    .poly   (POLY)
   ) lfsr_inst (
     .i_clk,
     .i_rst_n,
@@ -98,13 +109,6 @@ module uart_rx_msg (
       end
     end
   
-  // Message codes
-  localparam [7:0] BYTE_HEADER          = 8'h5a;
-  localparam [7:0] CMD_SINGLE_TRANS     = 8'hd1;
-  localparam [7:0] CMD_BURST_TRANS      = 8'hd2;
-  localparam [7:0] CMD_DISABLE          = 8'he1;
-  localparam [7:0] CMD_ENABLE           = 8'he2;
-  
   // CMD sequence FSM
   typedef enum {STATE_HEADER,
                 STATE_CMD,
@@ -113,7 +117,8 @@ module uart_rx_msg (
                 STATE_BURST_TRANS_II,
                 STATE_DISABLE,
                 STATE_ENABLE,
-                STATE_CRC_CHECK
+                STATE_CRC_CHECK,
+                STATE_CRC_CHECK_II
                 } cmd_seq_state_t;
   
   cmd_seq_state_t cmd_seq_state;
@@ -231,8 +236,14 @@ module uart_rx_msg (
         
         STATE_CRC_CHECK: begin
           if (crc_byte_done) begin
+            cmd_seq_state   <= STATE_CRC_CHECK_II;
+          end
+        end
+
+        STATE_CRC_CHECK_II: begin
+          if (crc_byte_done) begin
             cmd_seq_state   <= STATE_HEADER;
-            o_rx_msg_err    <= !lfsr_reg;
+            o_rx_msg_err    <= (lfsr_reg != 0);
           end
         end
         

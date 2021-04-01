@@ -1,11 +1,18 @@
-`default_nettype none
+//
+// File:        pkg_cordic_sincos.sv
+// Author:      Grant Yu
+// Date:        03/2021
+// Description: Data package for the cordic_sincos calculation module. Includes
+//              gain compensation factor, K, for up to 48 iterations, an arctan look-up
+//              table, fixed-point values of pi and its multiples, and a rounding function
+//
 
 package pkg_cordic_sincos;
 
 // In this package, we have:
-//  1. Look-up table for K values (rotation gain) as a function of iteration #
-//  2. Look-uptable for arctan values as a function of iteration #
-//  3. Values of pi/2, pi, 3pi/2, and 2pi
+//	1. Look-up table for K values (rotation gain) as a function of iteration #
+//	2. Look-uptable for arctan values as a function of iteration #
+//	3. Values of pi/2, pi, 3pi/2, and 2pi
 
 parameter MAX_STAGES = 48;
 parameter MAX_D_WIDTH = 48;
@@ -121,10 +128,10 @@ parameter bit signed [MAX_D_WIDTH-1:0] ATAN[0:MAX_STAGES-1] = {
 };
 
 // Angle correction constants: pi/2, pi/ 3pi/2, 2pi, generated on MATLAB
-parameter bit signed [MAX_D_WIDTH-1:0] PI_DIV_2         = 48'h1921fb54442d;
-parameter bit signed [MAX_D_WIDTH-1:0] PI               = 48'h3243f6a8885a;
+parameter bit signed [MAX_D_WIDTH-1:0] PI_DIV_2 		= 48'h1921fb54442d;
+parameter bit signed [MAX_D_WIDTH-1:0] PI 				= 48'h3243f6a8885a;
 parameter bit signed [MAX_D_WIDTH-1:0] PI_MULT_3_DIV_2  = 48'h4b65f1fccc87;
-parameter bit signed [MAX_D_WIDTH-1:0] PI_MULT_2        = 48'h6487ed5110b4;
+parameter bit signed [MAX_D_WIDTH-1:0] PI_MULT_2 		= 48'h6487ed5110b4;
 
 // Rounding function
 function bit signed [MAX_D_WIDTH-1:0] round ( input bit signed [MAX_D_WIDTH-1:0] input_val, input int BITS );
