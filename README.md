@@ -1,1 +1,1 @@
-# CORDIC_UART_FPGA
+# CORDIC-UART: Artix-7 Implementation
