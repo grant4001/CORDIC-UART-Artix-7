@@ -17,7 +17,7 @@ module top_hdl();
     uart_if m_uart_if ( .* );
     
     // DUT
-    top_module DUT (
+    top_module DUT #( .CLK_FREQ (100000000), .BAUD_RATE (3000000) ) (
         .i_clk  (clk),
         .i_rst_n(rst_n),
         .i_rx   (m_uart_if.rx),
