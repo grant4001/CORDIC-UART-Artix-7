@@ -52,7 +52,7 @@ module uart_tx #(
   
   assign o_fifo_rd_en = (!i_fifo_empty) && state==TX_IDLE;;
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
       tx_byte           <= '0;
       tx_byte_sreg      <= '0;

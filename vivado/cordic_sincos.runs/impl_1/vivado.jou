@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Apr  1 18:43:39 2021
+# Process ID: 18304
+# Current directory: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/impl_1
+# Command line: vivado.exe -log fpga_top_module.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source fpga_top_module.tcl -notrace
+# Log file: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/impl_1/fpga_top_module.vdi
+# Journal file: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source fpga_top_module.tcl -notrace

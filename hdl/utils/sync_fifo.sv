@@ -52,7 +52,7 @@ assign o_empty      = (wr_ptr==rd_ptr);
 assign o_full       = (wr_ptr=={~rd_ptr[ADDR_WIDTH],
                                  rd_ptr[ADDR_WIDTH-1:0]});
 
-always_ff @(posedge i_clk or negedge i_rst_n)
+always_ff @(posedge i_clk)
     if (~i_rst_n) begin
         rd_ptr  <= '0;
         wr_ptr  <= '0;

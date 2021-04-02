@@ -28,7 +28,7 @@ logic [DATA_WIDTH-1:0] mem [DEPTH-1:0];
 always_ff @(posedge i_clk_wr)
     if (i_wr_en) mem[i_wr_addr]  <= i_wr_data;
 
-always_ff @(posedge i_clk_rd or negedge i_rst_n)
+always_ff @(posedge i_clk_rd)
     if (!i_rst_n) o_rd_data <= '0;
     else          o_rd_data <= mem[i_rd_addr];
     

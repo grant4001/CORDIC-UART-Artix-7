@@ -21,7 +21,7 @@ module lfsr #(
     output reg [N-1:0] o_lfsr
   );
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n)           o_lfsr  <= '0;
     else if (i_load)        o_lfsr  <= i_seed;
     else if (i_count_en)    o_lfsr  <= {o_lfsr[N-2:0], 1'b0} ^ (poly & {N{o_lfsr[N-1]}});

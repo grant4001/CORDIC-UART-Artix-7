@@ -34,9 +34,9 @@ module uart_rx #(
   
   assign rx = rx_sync[2];
   
-  always @(posedge i_clk or negedge i_rst_n)
+  always @(posedge i_clk)
     if (!i_rst_n) rx_sync <= 3'b000;
-    else          rx_sync <= {rx_sync << 1, i_rx};
+    else          rx_sync <= {rx_sync[1:0], i_rx};
   
   // Oversample pulse generation
   localparam OVERSAMP_PULSEGEN_MAX = int'(real'(CLK_FREQ_MHZ) / (real'(BAUD_RATE)*real'(OVERSAMPLE_RATE)));  
@@ -56,7 +56,7 @@ module uart_rx #(
                 RX_STOP} state_t;
   state_t state;
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
       oversamp_pulsegen <= '0;
       oversamp_cnt      <= '0;

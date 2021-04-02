@@ -39,7 +39,7 @@ module cordic_sincos_preprocess #(
   logic valid_p1;
   logic signed [BITS-1:0] theta_p1;
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
       valid_p1  <= 1'b0;
       theta_p1  <= '0;
@@ -73,7 +73,7 @@ module cordic_sincos_preprocess #(
                     ( theta_p1 < -PI_DIV_2_n )          ?   1'b1 :
                                                             1'b0;
     
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
       valid_p2  <= 1'b0;
       theta_p2  <= '0;

@@ -55,7 +55,7 @@ module uart_tx_msg (
   logic [3:0] count2eight;
   logic crc_byte_done;
     
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
         count2eight         <= '0;
         crc_byte_done       <= 1'b0;
@@ -133,7 +133,7 @@ module uart_tx_msg (
   logic [3:0] byte_cnt;
   logic [7:0] burst_cnt;
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
       tx_msg_state      <= STATE_IDLE;
       bytes2send        <= '{default:'0};

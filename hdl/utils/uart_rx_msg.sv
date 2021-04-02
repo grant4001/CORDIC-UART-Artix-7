@@ -30,8 +30,7 @@ module uart_rx_msg (
     // out to cordic
     output reg                      o_cordic_start,
     output reg  [47:0]              o_cordic_theta,
-    output reg                      o_cordic_pipeline_en,
-    output reg                      o_cordic_rst_n      
+    output reg                      o_cordic_pipeline_en
   );
   
   // LFSR module used to calculate CRC-8
@@ -57,7 +56,7 @@ module uart_rx_msg (
   logic [3:0] count2eight;
   logic crc_byte_done;
 
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     if (!i_rst_n) begin
         count2eight         <= '0;
         crc_byte_done       <= 1'b0;
@@ -99,7 +98,7 @@ module uart_rx_msg (
           
       endcase
       
-      if (i_rx_err||o_rx_msg_err) begin
+      if (i_rx_err || o_rx_msg_err) begin
           crc_byte_done     <= 1'b0;
           count2eight       <= '0;
           lfsr_load         <= 1'b0;
@@ -127,7 +126,7 @@ module uart_rx_msg (
   logic [2:0] count2six;
   logic [7:0] count2burst;
   
-  always_ff @(posedge i_clk or negedge i_rst_n)
+  always_ff @(posedge i_clk)
     
     if (!i_rst_n)
       begin
@@ -146,7 +145,6 @@ module uart_rx_msg (
         o_cordic_start      <= 1'b0;
         o_cordic_theta      <= '0;
         o_cordic_pipeline_en<= 1'b1;
-        o_cordic_rst_n      <= 1'b0;
       end
     else begin
       
@@ -161,7 +159,6 @@ module uart_rx_msg (
       o_cordic_start        <= 1'b0;
       o_cordic_theta        <= o_cordic_theta;
       o_cordic_pipeline_en  <= o_cordic_pipeline_en;
-      o_cordic_rst_n        <= 1'b1;
       
       case (cmd_seq_state)
         
@@ -225,7 +222,6 @@ module uart_rx_msg (
         
         STATE_DISABLE: begin
           o_cordic_pipeline_en  <= 1'b0;
-          o_cordic_rst_n        <= 1'b0;
           cmd_seq_state         <= STATE_CRC_CHECK;
         end
         
@@ -259,12 +255,12 @@ module uart_rx_msg (
             o_cordic_start      <= 1'b0;
             o_cordic_theta      <= '0;
             o_cordic_pipeline_en<= 1'b1;
-            o_cordic_rst_n      <= 1'b1;
+
         end
           
       endcase
       
-      if (i_rx_err||o_rx_msg_err) begin
+      if (i_rx_err || o_rx_msg_err) begin
         cmd_seq_state       <= STATE_HEADER;
         count2six           <= '0;
         count2burst         <= '0;
@@ -280,7 +276,6 @@ module uart_rx_msg (
         o_cordic_start      <= 1'b0;
         o_cordic_theta      <= '0;
         o_cordic_pipeline_en<= 1'b1;
-        o_cordic_rst_n      <= 1'b0;
       end
       
     end

@@ -42,7 +42,7 @@ module cordic_sincos_stage #(
       assign cos_sign_check = ( i_sign ? -(i_cos + delta_cos) : (i_cos + delta_cos) );
       assign sin_sign_check = ( i_sign ? -(i_sin + delta_sin) : (i_sin + delta_sin) );
       
-      always_ff @(posedge i_clk or negedge i_rst_n)
+      always_ff @(posedge i_clk)
         if (!i_rst_n) begin
           o_valid	<= 1'b0;
           o_sign	<= 1'b0;
@@ -59,7 +59,7 @@ module cordic_sincos_stage #(
         
     end else
     
-      always_ff @(posedge i_clk or negedge i_rst_n)
+      always_ff @(posedge i_clk)
         if (!i_rst_n) begin
           o_valid	<= 1'b0;
           o_sign	<= 1'b0;

@@ -2,34 +2,49 @@
 // File:        top_module.sv
 // Author:      Grant Yu
 // Date:        03/2021
-// Description: Top-level module for a CORDIC demonstration design on FPGA that includes UART communications
+// Description: Top-level module for a CORDIC demonstration design that includes UART communications
 //              as well as a custom messaging protocol.
 //
 
 `default_nettype none
 
-module top_module 
+module top_module #(CLK_FREQ, BAUD_RATE)
   (
     input wire i_clk,
     input wire i_rst_n,
     input wire i_rx,
-    output wire o_tx
+    output wire o_tx,
+    output wire o_rx_err,
+    output wire o_rx_msg_err,
+    output wire o_cordic_pipeline_en
   );
+
+  // Reset synchronizer for system
+  logic [1:0] sync_reg;
+  logic sync_rst_n;
+
+  always_ff @(posedge i_clk or negedge i_rst_n)
+    if (!i_rst_n) sync_reg <= 2'b00;
+    else          sync_reg <= {sync_reg[0], 1'b1};
+
+  assign sync_rst_n = sync_reg[1];
   
   logic [7:0] rx_byte;
   logic rx_byte_valid, rx_err;
+
+  assign o_rx_err = rx_err;
   
   // UART RX
   uart_rx #(
-    .CLK_FREQ_MHZ   (100_000_000),
-    .BAUD_RATE      (3_000_000),
+    .CLK_FREQ_MHZ   (CLK_FREQ),
+    .BAUD_RATE      (BAUD_RATE),
     .OVERSAMPLE_RATE(16),
     .NUM_DATA_BITS  (8),
     .PARITY_ON      (1),
     .PARITY_EO      (1)
   ) uart_rx_module (
     .i_clk,
-    .i_rst_n,
+    .i_rst_n        (sync_rst_n),
     .i_rx,
     .o_rx_byte      (rx_byte),
     .o_rx_byte_valid(rx_byte_valid),
@@ -43,12 +58,15 @@ module top_module
   logic rx_msg_err;
   logic cordic_start;
   logic [47:0] cordic_theta;
-  logic cordic_pipeline_en, cordic_rst_n;
+  logic cordic_pipeline_en;
+
+  assign o_cordic_pipeline_en = cordic_pipeline_en;
+  assign o_rx_msg_err = rx_msg_err;
   
   // RX MSG
   uart_rx_msg uart_rx_msg_module (
     .i_clk,
-    .i_rst_n,
+    .i_rst_n            (sync_rst_n),
     
     // in from uart_rx
     .i_rx_byte          (rx_byte),
@@ -65,12 +83,8 @@ module top_module
     // out to cordic
     .o_cordic_start         (cordic_start),
     .o_cordic_theta         (cordic_theta),
-    .o_cordic_pipeline_en   (cordic_pipeline_en),
-    .o_cordic_rst_n         (cordic_rst_n)
+    .o_cordic_pipeline_en   (cordic_pipeline_en)
   );
-  
-  logic cordic_reset;
-  assign cordic_reset = i_rst_n && cordic_rst_n;
   
   logic cordic_done;
   logic [47:0] cordic_sin_theta, cordic_cos_theta;
@@ -81,7 +95,7 @@ module top_module
     .BITS       (48)
   ) cordic_sincos_module (
     .i_clk,
-    .i_rst_n        (cordic_reset),
+    .i_rst_n        (sync_rst_n),
     .i_pipeline_en  (cordic_pipeline_en),
     .i_start        (cordic_start),
     .i_theta        (cordic_theta),            
@@ -96,7 +110,7 @@ module top_module
   // TX MSG
   uart_tx_msg uart_tx_msg_module (
     .i_clk,
-    .i_rst_n,
+    .i_rst_n            (sync_rst_n),
     
     // from uart rx msg
     .i_cmd_reg          (cmd_reg),
@@ -127,7 +141,7 @@ module top_module
     .DEPTH  (64)
   ) sync_fifo_inst (
     .i_clk,
-    .i_rst_n,
+    .i_rst_n    (sync_rst_n),
     .i_wr_en    (fifo_wr_en),
     .i_rd_en    (fifo_rd_en),
     .i_wr_data  (fifo_wr_data),
@@ -137,20 +151,20 @@ module top_module
   );
   
   // UART TX
-    uart_tx #(
-      .CLK_FREQ_MHZ     (100_000_000),
-      .BAUD_RATE        (3_000_000),
-      .NUM_DATA_BITS    (8),
-      .PARITY_ON        (1),
-      .PARITY_EO        (1),
-      .NUM_STOP_BITS    (1)
-    ) uart_tx_module (
-      .i_clk,
-      .i_rst_n,
-      .i_fifo_empty     (fifo_empty),
-      .i_fifo_rd_data   (fifo_rd_data),
-      .o_fifo_rd_en     (fifo_rd_en),
-      .o_tx
-    );
+  uart_tx #(
+    .CLK_FREQ_MHZ     (CLK_FREQ),
+    .BAUD_RATE        (BAUD_RATE),
+    .NUM_DATA_BITS    (8),
+    .PARITY_ON        (1),
+    .PARITY_EO        (1),
+    .NUM_STOP_BITS    (1)
+  ) uart_tx_module (
+    .i_clk,
+    .i_rst_n          (sync_rst_n),
+    .i_fifo_empty     (fifo_empty),
+    .i_fifo_rd_data   (fifo_rd_data),
+    .o_fifo_rd_en     (fifo_rd_en),
+    .o_tx
+  );
     
 endmodule

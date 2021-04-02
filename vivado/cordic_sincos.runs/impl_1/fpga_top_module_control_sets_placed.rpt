@@ -1,0 +1,108 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Thu Apr  1 18:45:19 2021
+| Host         : DESKTOP-L5PSEKK running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file fpga_top_module_control_sets_placed.rpt
+| Design       : fpga_top_module
+| Device       : xc7a35ti
+--------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    30 |
+|    Minimum number of control sets                        |    30 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    70 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    30 |
+| >= 0 to < 4        |     4 |
+| >= 4 to < 6        |     5 |
+| >= 6 to < 8        |     4 |
+| >= 8 to < 10       |     8 |
+| >= 10 to < 12      |     1 |
+| >= 12 to < 14      |     1 |
+| >= 14 to < 16      |     1 |
+| >= 16              |     6 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               1 |            1 |
+| No           | No                    | Yes                    |               4 |            2 |
+| No           | Yes                   | No                     |              66 |           31 |
+| Yes          | No                    | No                     |              30 |           11 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |            6693 |         1782 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------------+------------------+----------------+--------------+
+|          Clock Signal         |                                 Enable Signal                                 |                                Set/Reset Signal                                | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------------+------------------+----------------+--------------+
+|  clk_wiz_0_inst/inst/clk_out1 |                                                                               |                                                                                |                1 |              1 |         1.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_module/o_tx_i_1_n_0                                   | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                1 |              1 |         1.00 |
+|  clk_wiz_0_inst/inst/clk_out1 |                                                                               | top_module_inst/i_rst_n_0                                                      |                1 |              2 |         2.00 |
+|  i_clk_IBUF                   |                                                                               | top_module_inst/i_rst_n_0                                                      |                1 |              2 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_2_n_0    | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_1_n_0     |                2 |              4 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_module/oversamp_cnt[3]_i_1_n_0                        | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                1 |              4 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/FSM_sequential_tx_msg_state_reg[3]_i_1_n_0 | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                3 |              4 |         1.33 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/lfsr_count_en                              | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                1 |              4 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/byte_cnt[3]_i_1_n_0                        | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                1 |              4 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_module/FSM_onehot_state[5]_i_1_n_0                    | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                2 |              6 |         3.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_module/baudper_cnt                                    | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                3 |              6 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/sync_fifo_inst/bram_inst/E[0]                                 | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                4 |              7 |         1.75 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/sync_fifo_inst/E[0]                                           | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                4 |              7 |         1.75 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/count2burst_0                              | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_1_n_0     |                5 |              8 |         1.60 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_module/E[0]                                           | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_1_n_0     |                6 |              8 |         1.33 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/lfsr_inst/o_lfsr[7]_i_1_n_0                | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                5 |              8 |         1.60 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_module/tx_byte_sreg_0                                 | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                2 |              8 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_module/tx_byte                                        | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                2 |              8 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/lfsr_inst/o_lfsr[7]_i_1__0_n_0             | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                2 |              8 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/lfsr_load                                  | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                3 |              8 |         2.67 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/burst_cnt[7]_i_1_n_0                       | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                4 |              8 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_module/o_rx_byte[7]_i_1_n_0                           | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |                7 |             11 |         1.57 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/sync_fifo_inst/bram_inst/E[0]                                 |                                                                                |                3 |             12 |         4.00 |
+|  clk_wiz_0_inst/inst/clk_out1 |                                                                               | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |                7 |             15 |         2.14 |
+|  clk_wiz_0_inst/inst/clk_out1 |                                                                               | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |               10 |             20 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 |                                                                               | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_1_n_0     |               14 |             31 |         2.21 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/o_cordic_theta[47]_i_1_n_0                 | top_module_inst/uart_rx_msg_module/FSM_sequential_cmd_seq_state[3]_i_1_n_0     |               24 |             48 |         2.00 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/led_OBUF[1]                                |                                                                                |               11 |             62 |         5.64 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_tx_msg_module/bytes2send[0][7]_i_1_n_0                   | top_module_inst/uart_rx_msg_module/o_rx_msg_err_reg_0                          |               41 |             96 |         2.34 |
+|  clk_wiz_0_inst/inst/clk_out1 | top_module_inst/uart_rx_msg_module/led_OBUF[1]                                | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/SR[0] |             1659 |           6427 |         3.87 |
++-------------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------------+------------------+----------------+--------------+
+
+

@@ -1,0 +1,711 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Apr  1 18:41:43 2021
+# Process ID: 13656
+# Current directory: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1
+# Command line: vivado.exe -log fpga_top_module.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fpga_top_module.tcl
+# Log file: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1/fpga_top_module.vds
+# Journal file: C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source fpga_top_module.tcl -notrace
+Command: synth_design -top fpga_top_module -part xc7a35ticsg324-1L
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35ti'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35ti'
+INFO: [Device 21-403] Loading part xc7a35ticsg324-1L
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 13960
+WARNING: [Synth 8-6901] identifier 'sync_rst_n' is used before its declaration [C:/Users/gy400/Documents/CORDIC/hdl/utils/fpga_top_module.sv:24]
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1005.688 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'fpga_top_module' [C:/Users/gy400/Documents/CORDIC/hdl/utils/fpga_top_module.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1/.Xil/Vivado-13656-DESKTOP-L5PSEKK/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (1#1) [C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1/.Xil/Vivado-13656-DESKTOP-L5PSEKK/realtime/clk_wiz_0_stub.v:5]
+INFO: [Synth 8-6157] synthesizing module 'top_module' [C:/Users/gy400/Documents/CORDIC/hdl/utils/top_module.sv:11]
+	Parameter CLK_FREQ bound to: 100000000 - type: integer 
+	Parameter BAUD_RATE bound to: 3000000 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'uart_rx' [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_rx.sv:10]
+	Parameter CLK_FREQ_MHZ bound to: 100000000 - type: integer 
+	Parameter BAUD_RATE bound to: 3000000 - type: integer 
+	Parameter OVERSAMPLE_RATE bound to: 16 - type: integer 
+	Parameter NUM_DATA_BITS bound to: 8 - type: integer 
+	Parameter PARITY_ON bound to: 1 - type: integer 
+	Parameter PARITY_EO bound to: 1 - type: integer 
+	Parameter EVEN_PAR bound to: 0 - type: integer 
+	Parameter ODD_PAR bound to: 1 - type: integer 
+	Parameter OVERSAMP_PULSEGEN_MAX bound to: 2 - type: integer 
+	Parameter OVERSAMP_CNT_MAX bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'uart_rx' (2#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_rx.sv:10]
+INFO: [Synth 8-6157] synthesizing module 'uart_rx_msg' [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_rx_msg.sv:14]
+INFO: [Synth 8-6157] synthesizing module 'lfsr' [C:/Users/gy400/Documents/CORDIC/hdl/utils/lfsr.sv:11]
+	Parameter N bound to: 8 - type: integer 
+	Parameter poly bound to: 8'b10011011 
+INFO: [Synth 8-6155] done synthesizing module 'lfsr' (3#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/lfsr.sv:11]
+INFO: [Synth 8-6155] done synthesizing module 'uart_rx_msg' (4#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_rx_msg.sv:14]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos.sv:11]
+	Parameter STAGES bound to: 48 - type: integer 
+	Parameter BITS bound to: 48 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 0 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized0' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized0' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized1' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized1' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized2' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 3 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized2' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized3' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized3' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized4' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 5 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized4' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized5' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 6 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized5' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized6' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 7 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized6' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized7' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized7' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized8' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 9 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized8' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized9' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 10 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized9' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized10' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 11 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized10' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized11' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 12 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized11' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized12' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 13 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized12' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized13' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 14 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized13' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized14' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 15 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized14' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized15' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized15' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized16' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 17 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized16' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized17' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 18 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized17' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized18' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 19 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized18' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized19' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 20 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized19' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized20' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 21 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized20' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized21' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 22 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized21' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized22' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 23 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized22' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized23' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 24 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized23' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized24' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 25 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized24' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized25' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 26 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized25' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized26' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 27 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized26' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized27' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 28 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized27' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized28' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 29 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized28' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized29' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 30 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized29' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized30' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 31 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized30' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized31' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 32 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized31' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized32' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 33 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized32' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized33' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 34 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized33' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized34' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 35 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized34' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized35' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 36 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized35' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized36' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 37 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized36' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized37' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 38 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized37' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized38' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 39 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized38' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized39' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 40 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized39' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized40' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 41 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized40' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized41' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 42 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized41' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized42' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 43 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized42' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized43' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 44 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized43' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized44' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 45 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized44' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized45' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 46 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized45' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_stage__parameterized46' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+	Parameter BITS bound to: 48 - type: integer 
+	Parameter STAGE bound to: 47 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_stage__parameterized46' (5#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_stage.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'cordic_sincos_preprocess' [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_preprocess.sv:12]
+	Parameter STAGES bound to: 48 - type: integer 
+	Parameter BITS bound to: 48 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos_preprocess' (6#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos_preprocess.sv:12]
+INFO: [Synth 8-6155] done synthesizing module 'cordic_sincos' (7#1) [C:/Users/gy400/Documents/CORDIC/hdl/cordic_sincos/cordic_sincos.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'uart_tx_msg' [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_tx_msg.sv:13]
+INFO: [Synth 8-6155] done synthesizing module 'uart_tx_msg' (8#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_tx_msg.sv:13]
+INFO: [Synth 8-6157] synthesizing module 'sync_fifo' [C:/Users/gy400/Documents/CORDIC/hdl/utils/sync_fifo.sv:11]
+	Parameter WIDTH bound to: 8 - type: integer 
+	Parameter DEPTH bound to: 64 - type: integer 
+	Parameter ADDR_WIDTH bound to: 6 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'bram' [C:/Users/gy400/Documents/CORDIC/hdl/utils/bram.sv:10]
+	Parameter ADDR_WIDTH bound to: 6 - type: integer 
+	Parameter DEPTH bound to: 64 - type: integer 
+	Parameter DATA_WIDTH bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'bram' (9#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/bram.sv:10]
+INFO: [Synth 8-6155] done synthesizing module 'sync_fifo' (10#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/sync_fifo.sv:11]
+INFO: [Synth 8-6157] synthesizing module 'uart_tx' [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_tx.sv:10]
+	Parameter CLK_FREQ_MHZ bound to: 100000000 - type: integer 
+	Parameter BAUD_RATE bound to: 3000000 - type: integer 
+	Parameter NUM_DATA_BITS bound to: 8 - type: integer 
+	Parameter PARITY_ON bound to: 1 - type: integer 
+	Parameter PARITY_EO bound to: 1 - type: integer 
+	Parameter NUM_STOP_BITS bound to: 1 - type: integer 
+	Parameter EVEN_PAR bound to: 0 - type: integer 
+	Parameter ODD_PAR bound to: 1 - type: integer 
+	Parameter BAUDPER_CNT_MAX bound to: 33 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'uart_tx' (11#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/uart_tx.sv:10]
+INFO: [Synth 8-6155] done synthesizing module 'top_module' (12#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/top_module.sv:11]
+INFO: [Synth 8-6155] done synthesizing module 'fpga_top_module' (13#1) [C:/Users/gy400/Documents/CORDIC/hdl/utils/fpga_top_module.sv:11]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1005.688 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 1005.688 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 1005.688 ; gain = 0.000
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.407 . Memory (MB): peak = 1005.688 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clk_wiz_0_inst'
+Finished Parsing XDC File [c:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clk_wiz_0_inst'
+Parsing XDC File [C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.srcs/constrs_1/new/cordic_sincos.xdc]
+Finished Parsing XDC File [C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.srcs/constrs_1/new/cordic_sincos.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.srcs/constrs_1/new/cordic_sincos.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/fpga_top_module_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/fpga_top_module_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1111.953 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.064 . Memory (MB): peak = 1111.953 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:23 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35ticsg324-1L
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:23 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for i_clk. (constraint file  c:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 3).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for i_clk. (constraint file  c:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.gen/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 4).
+Applied set_property KEEP_HIERARCHY = SOFT for clk_wiz_0_inst. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:23 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'uart_rx'
+INFO: [Synth 8-802] inferred FSM for state register 'lfsr_state_reg' in module 'uart_rx_msg'
+INFO: [Synth 8-802] inferred FSM for state register 'cmd_seq_state_reg' in module 'uart_rx_msg'
+INFO: [Synth 8-802] inferred FSM for state register 'lfsr_state_reg' in module 'uart_tx_msg'
+INFO: [Synth 8-802] inferred FSM for state register 'tx_msg_state_reg' in module 'uart_tx_msg'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'uart_tx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                RX_START |                               00 | 00000000000000000000000000000000
+                 RX_DATA |                               01 | 00000000000000000000000000000001
+               RX_PARITY |                               10 | 00000000000000000000000000000010
+                 RX_STOP |                               11 | 00000000000000000000000000000011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'uart_rx'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+         LFSR_STATE_LOAD |                                0 | 00000000000000000000000000000000
+        LFSR_STATE_COUNT |                                1 | 00000000000000000000000000000001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'lfsr_state_reg' using encoding 'sequential' in module 'uart_rx_msg'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+            STATE_HEADER |                             0000 | 00000000000000000000000000000000
+               STATE_CMD |                             0001 | 00000000000000000000000000000001
+      STATE_SINGLE_TRANS |                             0010 | 00000000000000000000000000000010
+       STATE_BURST_TRANS |                             0011 | 00000000000000000000000000000011
+    STATE_BURST_TRANS_II |                             0100 | 00000000000000000000000000000100
+           STATE_DISABLE |                             0101 | 00000000000000000000000000000101
+            STATE_ENABLE |                             0110 | 00000000000000000000000000000110
+         STATE_CRC_CHECK |                             0111 | 00000000000000000000000000000111
+      STATE_CRC_CHECK_II |                             1000 | 00000000000000000000000000001000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'cmd_seq_state_reg' using encoding 'sequential' in module 'uart_rx_msg'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+         LFSR_STATE_LOAD |                              001 | 00000000000000000000000000000000
+        LFSR_STATE_COUNT |                              010 | 00000000000000000000000000000001
+               LFSR_DONE |                              100 | 00000000000000000000000000000010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'lfsr_state_reg' using encoding 'one-hot' in module 'uart_tx_msg'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              STATE_IDLE |                             0000 | 00000000000000000000000000000000
+       STATE_BURST_TRANS |                             0001 | 00000000000000000000000000000100
+      STATE_SINGLE_TRANS |                             0010 | 00000000000000000000000000000001
+   STATE_SINGLE_TRANS_II |                             0011 | 00000000000000000000000000000010
+  STATE_SINGLE_TRANS_III |                             0100 | 00000000000000000000000000000011
+    STATE_BURST_TRANS_II |                             0101 | 00000000000000000000000000000101
+   STATE_BURST_TRANS_III |                             0110 | 00000000000000000000000000000110
+     STATE_BURST_TRANS_V |                             0111 | 00000000000000000000000000001000
+    STATE_BURST_TRANS_IV |                             1000 | 00000000000000000000000000000111
+           STATE_DISABLE |                             1001 | 00000000000000000000000000001001
+        STATE_DISABLE_II |                             1010 | 00000000000000000000000000001010
+            STATE_ENABLE |                             1011 | 00000000000000000000000000001011
+         STATE_ENABLE_II |                             1100 | 00000000000000000000000000001100
+           STATE_TX_CRC8 |                             1101 | 00000000000000000000000000001101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'tx_msg_state_reg' using encoding 'sequential' in module 'uart_tx_msg'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 TX_IDLE |                           000001 | 00000000000000000000000000000000
+             TX_GET_DATA |                           000010 | 00000000000000000000000000000001
+                TX_START |                           000100 | 00000000000000000000000000000010
+                 TX_DATA |                           001000 | 00000000000000000000000000000011
+               TX_PARITY |                           010000 | 00000000000000000000000000000100
+                 TX_STOP |                           100000 | 00000000000000000000000000000101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'uart_tx'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:26 ; elapsed = 00:00:26 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   48 Bit       Adders := 242   
+	   3 Input   48 Bit       Adders := 2     
+	   2 Input    8 Bit       Adders := 2     
+	   2 Input    7 Bit       Adders := 2     
+	   2 Input    6 Bit       Adders := 1     
+	   2 Input    4 Bit       Adders := 4     
+	   2 Input    3 Bit       Adders := 3     
+	   2 Input    1 Bit       Adders := 1     
++---XORs : 
+	   2 Input      8 Bit         XORs := 4     
+	   2 Input      1 Bit         XORs := 1     
++---XORs : 
+	                8 Bit    Wide XORs := 2     
++---Registers : 
+	               48 Bit    Registers := 147   
+	                8 Bit    Registers := 25    
+	                7 Bit    Registers := 2     
+	                6 Bit    Registers := 1     
+	                4 Bit    Registers := 4     
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 116   
++---RAMs : 
+	              512 Bit	(64 X 8 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input   48 Bit        Muxes := 98    
+	   9 Input   48 Bit        Muxes := 1     
+	   2 Input   47 Bit        Muxes := 1     
+	   2 Input   46 Bit        Muxes := 1     
+	   2 Input   45 Bit        Muxes := 1     
+	   2 Input   44 Bit        Muxes := 1     
+	   2 Input   43 Bit        Muxes := 1     
+	   2 Input   42 Bit        Muxes := 1     
+	   2 Input   41 Bit        Muxes := 1     
+	   2 Input   40 Bit        Muxes := 1     
+	   2 Input   39 Bit        Muxes := 1     
+	   2 Input   38 Bit        Muxes := 1     
+	   2 Input   37 Bit        Muxes := 1     
+	   2 Input   36 Bit        Muxes := 1     
+	   2 Input   35 Bit        Muxes := 1     
+	   2 Input   34 Bit        Muxes := 1     
+	   2 Input   33 Bit        Muxes := 1     
+	   2 Input   32 Bit        Muxes := 2     
+	   2 Input   31 Bit        Muxes := 1     
+	   2 Input   30 Bit        Muxes := 1     
+	   2 Input   29 Bit        Muxes := 1     
+	   2 Input   28 Bit        Muxes := 1     
+	   2 Input   27 Bit        Muxes := 1     
+	   2 Input   26 Bit        Muxes := 1     
+	   2 Input   25 Bit        Muxes := 1     
+	   2 Input   24 Bit        Muxes := 1     
+	   2 Input   23 Bit        Muxes := 1     
+	   2 Input   22 Bit        Muxes := 1     
+	   2 Input   21 Bit        Muxes := 1     
+	   2 Input   20 Bit        Muxes := 1     
+	   2 Input   19 Bit        Muxes := 1     
+	   2 Input   18 Bit        Muxes := 1     
+	   2 Input   17 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 1     
+	   2 Input   15 Bit        Muxes := 1     
+	   2 Input   14 Bit        Muxes := 1     
+	   2 Input   13 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 1     
+	   2 Input   11 Bit        Muxes := 1     
+	   2 Input   10 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 6     
+	   9 Input    8 Bit        Muxes := 3     
+	   3 Input    8 Bit        Muxes := 1     
+	  14 Input    8 Bit        Muxes := 14    
+	   6 Input    8 Bit        Muxes := 2     
+	   2 Input    7 Bit        Muxes := 1     
+	   2 Input    6 Bit        Muxes := 3     
+	   6 Input    6 Bit        Muxes := 2     
+	   2 Input    5 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 11    
+	   4 Input    4 Bit        Muxes := 1     
+	   9 Input    4 Bit        Muxes := 1     
+	   5 Input    4 Bit        Muxes := 4     
+	   3 Input    4 Bit        Muxes := 1     
+	  14 Input    4 Bit        Muxes := 2     
+	   2 Input    3 Bit        Muxes := 3     
+	   9 Input    3 Bit        Muxes := 1     
+	   6 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 2     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 36    
+	   3 Input    1 Bit        Muxes := 5     
+	   4 Input    1 Bit        Muxes := 6     
+	   9 Input    1 Bit        Muxes := 10    
+	  14 Input    1 Bit        Muxes := 5     
+	   6 Input    1 Bit        Muxes := 7     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:00:50 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Preliminary Mapping	Report (see note below)
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+|Module Name     | RTL Object                       | Inference | Size (Depth x Width) | Primitives               | 
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+|fpga_top_module | sync_fifo_inst/bram_inst/mem_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:58 ; elapsed = 00:00:59 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:01 ; elapsed = 00:01:02 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping	Report
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+|Module Name     | RTL Object                       | Inference | Size (Depth x Width) | Primitives               | 
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+|fpga_top_module | sync_fifo_inst/bram_inst/mem_reg | Implied   | 64 x 8               | RAM64X1D x 2	RAM64M x 2	 | 
++----------------+----------------------------------+-----------+----------------------+--------------------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:10 ; elapsed = 00:01:11 . Memory (MB): peak = 1111.953 ; gain = 106.266
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:15 ; elapsed = 00:01:17 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:16 ; elapsed = 00:01:17 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++----------------+------------------------------------------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name     | RTL Name                                                                                 | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++----------------+------------------------------------------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[23].cordic_inst_i/o_theta_reg[21] | 9      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[22].cordic_inst_i/o_theta_reg[22] | 8      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[21].cordic_inst_i/o_theta_reg[23] | 7      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[20].cordic_inst_i/o_theta_reg[24] | 6      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[19].cordic_inst_i/o_theta_reg[25] | 5      | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[18].cordic_inst_i/o_theta_reg[26] | 4      | 2     | YES          | NO                 | YES               | 2      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[47].cordic_inst_i/o_valid_reg     | 50     | 1     | YES          | NO                 | YES               | 0      | 2       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[46].cordic_inst_i/o_sign_reg      | 47     | 1     | YES          | NO                 | YES               | 0      | 2       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[44].cordic_inst_i/o_theta_reg[0]  | 30     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[43].cordic_inst_i/o_theta_reg[1]  | 29     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[42].cordic_inst_i/o_theta_reg[2]  | 28     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[41].cordic_inst_i/o_theta_reg[3]  | 27     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[40].cordic_inst_i/o_theta_reg[4]  | 26     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[39].cordic_inst_i/o_theta_reg[5]  | 25     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[38].cordic_inst_i/o_theta_reg[6]  | 24     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[37].cordic_inst_i/o_theta_reg[7]  | 23     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[36].cordic_inst_i/o_theta_reg[8]  | 22     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[35].cordic_inst_i/o_theta_reg[9]  | 21     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[34].cordic_inst_i/o_theta_reg[10] | 20     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[33].cordic_inst_i/o_theta_reg[11] | 19     | 1     | YES          | NO                 | YES               | 0      | 1       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[32].cordic_inst_i/o_theta_reg[12] | 18     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[31].cordic_inst_i/o_theta_reg[13] | 17     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[30].cordic_inst_i/o_theta_reg[14] | 16     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[29].cordic_inst_i/o_theta_reg[15] | 15     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[28].cordic_inst_i/o_theta_reg[16] | 14     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[27].cordic_inst_i/o_theta_reg[17] | 13     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[26].cordic_inst_i/o_theta_reg[18] | 12     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[25].cordic_inst_i/o_theta_reg[19] | 11     | 1     | YES          | NO                 | YES               | 1      | 0       | 
+|fpga_top_module | top_module_inst/cordic_sincos_module/CORDIC_STAGES_GEN[24].cordic_inst_i/o_theta_reg[20] | 10     | 1     | YES          | NO                 | YES               | 1      | 0       | 
++----------------+------------------------------------------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+--------------+----------+
+|      |BlackBox name |Instances |
++------+--------------+----------+
+|1     |clk_wiz_0     |         1|
++------+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |clk_wiz  |     1|
+|2     |CARRY4   |  2803|
+|3     |LUT1     |  4931|
+|4     |LUT2     |  4006|
+|5     |LUT3     |   288|
+|6     |LUT4     |  2328|
+|7     |LUT5     |   129|
+|8     |LUT6     |   124|
+|9     |MUXF7    |     1|
+|10    |RAM64M   |     2|
+|11    |RAM64X1D |     2|
+|12    |SRL16E   |    16|
+|13    |SRLC32E  |    16|
+|14    |FDCE     |     4|
+|15    |FDRE     |  6785|
+|16    |FDSE     |     4|
+|17    |IBUF     |     2|
+|18    |OBUF     |     5|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:19 ; elapsed = 00:01:20 . Memory (MB): peak = 1124.680 ; gain = 118.992
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:02 ; elapsed = 00:01:14 . Memory (MB): peak = 1124.680 ; gain = 12.727
+Synthesis Optimization Complete : Time (s): cpu = 00:01:19 ; elapsed = 00:01:21 . Memory (MB): peak = 1124.680 ; gain = 118.992
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.527 . Memory (MB): peak = 1136.734 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 2808 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-140] Inserted 1 IBUFs to IO ports without IO buffers.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1151.621 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 4 instances were transformed.
+  RAM64M => RAM64M (RAMD64E(x4)): 2 instances
+  RAM64X1D => RAM64X1D (RAMD64E(x2)): 2 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+148 Infos, 1 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:34 ; elapsed = 00:01:38 . Memory (MB): peak = 1151.621 ; gain = 145.934
+INFO: [Common 17-1381] The checkpoint 'C:/Users/gy400/Documents/CORDIC/vivado/cordic_sincos.runs/synth_1/fpga_top_module.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file fpga_top_module_utilization_synth.rpt -pb fpga_top_module_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Apr  1 18:43:30 2021...
