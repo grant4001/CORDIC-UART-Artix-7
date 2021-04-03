@@ -9,7 +9,9 @@ I verified the design using a custom UVM testbench. Features include: virtual se
 Finally, I wrote a Python client program that enables the user to send and receive UART messages to/from the Arty-A7.
 
 Simulate the UVM testbench on EDA playground: https://edaplayground.com/x/9xNx
+
 Video demo: https://www.youtube.com/watch?v=hzrFoNM5OXQ
+
 Video explanation of algorithm and implementation: https://www.youtube.com/watch?v=Tul1gOaTunQ&t=467s
 
 For questions, please feel free to contact me at gy.4002@gmail.com. Looking forward to your inquiries!
