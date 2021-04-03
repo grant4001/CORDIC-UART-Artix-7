@@ -28,7 +28,7 @@ python pc_client_program.py
 
 ### Demo links:
 
-Simulate the UVM testbench on EDA playground: https://edaplayground.com/x/9xNx
+Simulate the UVM testbench on EDA playground: https://edaplayground.com/x/9xNx (you'll need an account!)
 
 Video demo: https://www.youtube.com/watch?v=hzrFoNM5OXQ
 
