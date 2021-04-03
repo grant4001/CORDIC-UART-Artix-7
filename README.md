@@ -1,6 +1,6 @@
 # CORDIC-UART: Artix-7 Implementation
 
-Hi! Welcome to Grant Yu's CORDIC-UART: Artix-7 Implementation open-source, hobby project.
+Hi! Welcome to my CORDIC-UART Artix-7 Implementation open-source, hobby project.
 
 The design is a 48-stage pipelined CORDIC (modeled in SystemVerilog) calculating cos and sin of an input angle. The design is wrapped inside a UART interface with a custom messaging protocol supporting 4 instructions (SINGLE, BURST, DISABLE, ENABLE) and CRC-8 checking.
 
