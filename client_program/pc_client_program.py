@@ -78,14 +78,16 @@ def main():
                     # Read response message
                     bytes_back = ser.read(15)
 
+                    if bytes_back == b'':
+                        print("\nTimed out.")
+                        continue
+
                     # Format received theta
                     mycos = ''
                     mysin = ''
                     for i in reversed(range(0,6)):
                         mycos += format(bytes_back[i+2], '02x')
                         mysin += format(bytes_back[i+8], '02x')
-                    print(mycos)
-                    print(mysin)
                     cos_val = twos_complement(mycos, 48) / (2**46)
                     sin_val = twos_complement(mysin, 48) / (2**46)
 
@@ -154,6 +156,10 @@ def main():
 
                     # Read response message
                     bytes_back = ser.read(packet_size)
+
+                    if bytes_back == b'':
+                        print("\nTimed out.")
+                        continue
 
                     # Format received theta
                     mycos = []
