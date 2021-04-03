@@ -15,6 +15,7 @@ Finally, I wrote a Python client program that enables the user to send and recei
 To run the simulation, check out the EDA playground link below, or if you have QuestaSim 10.7c:
 
 cd testbench
+
 do run.do cordic_vseq_test
 
 To run on Vivado 2020.2, open the vivado/cordic_sincos.xpr project and run "Generate Bitstream." A ready-to-use bitstream is provided in vivado/cordic_sincos.runs/impl_1/fpga_top_module.bit
@@ -22,6 +23,7 @@ To run on Vivado 2020.2, open the vivado/cordic_sincos.xpr project and run "Gene
 To run the client Python program (Python 3.9.1):
 
 cd client_program
+
 python pc_client_program.py
 
 ### Demo links:
