@@ -32,7 +32,7 @@ Simulate the UVM testbench on EDA playground: https://edaplayground.com/x/9xNx (
 
 Video demo: https://www.youtube.com/watch?v=hzrFoNM5OXQ
 
-Video explanation of algorithm and implementation: https://www.youtube.com/watch?v=Tul1gOaTunQ&t=467s
+Video explanation of algorithm and implementation: https://www.youtube.com/watch?v=Tul1gOaTunQ
 
 ### Appendix:
 
