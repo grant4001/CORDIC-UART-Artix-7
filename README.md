@@ -6,9 +6,13 @@ The design is a 48-stage pipelined CORDIC (modeled in SystemVerilog) calculating
 
 I verified the design using a custom UVM testbench. Features include: virtual sequence using weighted arbitration to send single, burst, disable, and enable transactions, an environment containing an agent for driving/monitoring the UART interface (and tracking coverage), and a scoreboard containing an evaluator and a predictor that uses a DPI-C golden reference CORDIC model.
 
-Finally, I wrote a Python client program that enables the user to send and receive UART messages to the board.
+Finally, I wrote a Python client program that enables the user to send and receive UART messages to/from the Arty-A7.
 
-Please give it a run! For a demo on the Arty-A7 FPGA board and more info, please visit https://github.com/grant4001/CORDIC. For questions, please contact me at gy.4002@gmail.com.
+Simulate the UVM testbench on EDA playground: https://edaplayground.com/x/9xNx
+Video demo: https://www.youtube.com/watch?v=hzrFoNM5OXQ
+Video explanation of algorithm and implementation: https://www.youtube.com/watch?v=Tul1gOaTunQ&t=467s
+
+For questions, please feel free to contact me at gy.4002@gmail.com. Looking forward to your inquiries!
 
 Design language: SystemVerilog
 UVM version: UVM 1.1d
