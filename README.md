@@ -39,7 +39,11 @@ Video explanation of algorithm and implementation: https://www.youtube.com/watch
 For questions, please feel free to contact me at gy.4002@gmail.com. Looking forward to your inquiries!
 
 Design language: SystemVerilog
+
 UVM version: UVM 1.1d
+
 Vivado version: 2020.2
+
 Hardware platform: Digilent Arty-A7 board
+
 Python version: 3.9.1
