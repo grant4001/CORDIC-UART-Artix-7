@@ -1,5 +1,7 @@
 # CORDIC-UART: Artix-7 Implementation
 
+![alt text](https://github.com/grant4001/CORDIC-UART-Artix-7/blob/main/Thumbnail.PNG?raw=true)
+
 Hi! Welcome to my CORDIC-UART Artix-7 Implementation open-source, hobby project.
 
 ### Description:
